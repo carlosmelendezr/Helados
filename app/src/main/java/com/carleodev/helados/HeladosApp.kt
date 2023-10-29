@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.carleodev.helados.navigation.HeladosNavHost
 
 @Composable
-fun BotesApp(navController: NavHostController = rememberNavController()) {
+fun HeladosApp(navController: NavHostController = rememberNavController()) {
     HeladosNavHost(navController = navController)
 }
 

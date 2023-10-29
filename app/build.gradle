@@ -101,4 +101,7 @@ dependencies {
 
     // Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
 }

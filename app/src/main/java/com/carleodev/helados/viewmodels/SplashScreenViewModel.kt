@@ -1,4 +1,4 @@
-package com.carleodev.helados.ui.home
+package com.carleodev.helados.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

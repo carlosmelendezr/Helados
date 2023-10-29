@@ -9,6 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.carleodev.helados.ui.home.AnimatedSplashScreen
+import com.carleodev.helados.ui.home.CrearItemDestination
+import com.carleodev.helados.ui.home.CrearItemScreen
 import com.carleodev.helados.ui.home.SplashDestino
 
 
@@ -29,6 +31,13 @@ fun HeladosNavHost(
                 navController = navController
             )
         }
+
+        composable(route = CrearItemDestination.route) {
+            CrearItemScreen(
+                onNavigateUp = { navController.navigateUp() },
+            )
+        }
+
 
     }
 }

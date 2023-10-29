@@ -6,19 +6,13 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 
@@ -29,8 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.carleodev.helados.AppViewModelProvider
+import com.carleodev.helados.BuildConfig
 import com.carleodev.helados.navigation.NavigationDestination
-import com.google.firebase.BuildConfig
+import com.carleodev.helados.viewmodels.SplashViewModel
 
 
 import kotlinx.coroutines.delay
@@ -60,11 +55,8 @@ fun AnimatedSplashScreen(navController: NavHostController,
         startAnimation = true
         delay(4000)
         navController.popBackStack()
-        if (viewModel.existeDia>0) {
-            //navController.navigate(HorasDestination.route)
-        } else {
-            //navController.navigate(CrearDiaDestination.route)
-        }
+        navController.navigate(CrearItemDestination.route)
+
     }
     Splash(alpha = alphaAnim.value)
 }
@@ -100,7 +92,7 @@ fun Splash(alpha: Float) {
     }
     Box(
         modifier = Modifier
-            .background(largeRadialGradient)
+            .background( rainbowColorsBrush)
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -124,7 +116,7 @@ fun Splash(alpha: Float) {
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.Cursive)
 
-            Text(text="Aplicación Móvil de Tickets",
+            Text(text="Aplicación de Tickets",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold)
 
