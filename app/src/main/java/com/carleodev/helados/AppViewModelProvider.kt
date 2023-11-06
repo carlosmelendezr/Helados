@@ -23,7 +23,8 @@ object AppViewModelProvider {
 
         initializer {
             CrearItemViewModel(
-                this.createSavedStateHandle()
+                this.createSavedStateHandle(),
+                heladosApplication().container.itemsRepository
 
             )
         }

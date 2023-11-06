@@ -1,43 +1,68 @@
 package com.carleodev.helados.viewmodels
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.carleodev.helados.data.Item
 import com.carleodev.helados.data.ItemsRepository
+import com.carleodev.helados.data.OfflineItemsRepository
+import kotlinx.coroutines.runBlocking
 
-class CrearItemViewModel(savedStateHandle: SavedStateHandle
+
+class CrearItemViewModel(savedStateHandle: SavedStateHandle,
+                         private val itemsRepository: ItemsRepository
 
 ) : ViewModel() {
     var datosValidos = false
-    //var crearDiaUIState by mutableStateOf(CrearItemUIState())
+    var itemUIState by mutableStateOf(ItemUIState())
 
-    /*fun updateUiState(datosBotes: DatosBotes) {
-        crearDiaUIState = CrearDiaUIState(datosBotes, isValid = validate(datosBotes))
+    fun updateUiState(pitemUIState:ItemUIState) {
+        itemUIState = pitemUIState
 
-    }*/
+    }
 
     fun guardar() {
-
-        /*runBlocking {
-            itemsRepository.insertItem(Item(id=1,
-                price=crearDiaUIState.datosBotes.precioAzul.toDouble(),
-                cantidad=crearDiaUIState.datosBotes.azul.toInt(),
-                puestos=4,color=1,estatus=0, descrip = "BOTE AZUL"))
+        runBlocking {
+            //itemsRepository.insertItem(itemUIState.toItem())
 
 
-        }*/
+        }
 
     }
 
-    fun validate(item:Item):Boolean {
-
-
-        return datosValidos
+    fun validate():Boolean {
+        return itemUIState.descrip.isNotBlank() &&
+                itemUIState.price.isNotBlank()
     }
-
-
 }
 
-data class CrearItemUIState(val item: Item,
-                           val isValid:Boolean=false)
+data class ItemUIState(
+    val id: String = "",
+    val descrip: String="",
+    val price: String="",
+    val cantidad: String="",
+    val imagen:String="",
+    val estatus:String="",
+    val isValid:Boolean=false
+)
 
+
+fun ItemUIState.toItem():Item = Item(
+    id = id.toInt(),
+    descrip = descrip,
+    price = price.toDouble(),
+    cantidad = cantidad.toInt(),
+    imagen = imagen,
+    estatus = estatus.toInt()
+)
+
+fun Item.toItemUIState():ItemUIState= ItemUIState(
+    id = id.toString(),
+    descrip = descrip,
+    price = price.toString(),
+    cantidad = cantidad.toString(),
+    imagen = imagen,
+    estatus = estatus.toString()
+)
