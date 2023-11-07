@@ -48,10 +48,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
 import androidx.core.net.toFile
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.carleodev.helados.AppViewModelProvider
+import com.carleodev.helados.BuildConfig
 import com.carleodev.helados.HeladosTopAppBar
 import com.carleodev.helados.navigation.NavigationDestination
 import com.carleodev.helados.viewmodels.CrearItemViewModel
@@ -59,6 +62,7 @@ import com.carleodev.helados.viewmodels.ItemUIState
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Objects
 
 
 object CrearItemDestination : NavigationDestination {
@@ -95,6 +99,7 @@ fun CrearItemScreen(
         FormularioItem(itemUIState = viewModel.itemUIState,
             onValueChange=viewModel::updateUiState,
             onGuardar=viewModel::guardar,
+            onNavigateUp=onNavigateUp,
             modifier = modifier.padding(innerPadding))
 
     }
@@ -106,9 +111,19 @@ fun CrearItemScreen(
 fun FormularioItem(itemUIState:ItemUIState,
                    onValueChange:(ItemUIState)->Unit,
                    onGuardar:()->Unit,
+                   onNavigateUp: () -> Unit,
                    modifier: Modifier = Modifier) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val context = LocalContext.current
+    val file = context.createImageFile()
+    val uri = FileProvider.getUriForFile(
+        Objects.requireNonNull(context),
+        BuildConfig.APPLICATION_ID + ".provider", file
+    )
+
+
     var capturedImageUri by remember {
         mutableStateOf<Uri>(Uri.EMPTY)
     }
@@ -116,7 +131,7 @@ fun FormularioItem(itemUIState:ItemUIState,
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
             if (it != null) {
-                capturedImageUri = it
+                capturedImageUri = uri
                 onValueChange(itemUIState.copy(imagen = capturedImageUri.toString()))
 
             }
@@ -150,7 +165,7 @@ fun FormularioItem(itemUIState:ItemUIState,
                     value = itemUIState.descrip,
                     modifier = Modifier
                         .fillMaxWidth(),
-                    onValueChange = { onValueChange(itemUIState.copy(descrip = it)) },
+                    onValueChange = { onValueChange(itemUIState.copy(descrip = it.uppercase())) },
                     label = { Text("Descripcion") },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
@@ -191,10 +206,11 @@ fun FormularioItem(itemUIState:ItemUIState,
 
             }
             ) {
-                Text("SELECCIONAR IMAGEN {${capturedImageUri.path} }")
+                Text("SELECCIONAR IMAGEN")
             }
             Button(onClick = {
                 onGuardar()
+                //onNavigateUp()
             }
             ) {
                 Text("GUARDAR")
@@ -221,55 +237,16 @@ fun displayImage(stfrinUri:String) {
             .fillMaxSize()
             .fillMaxHeight()
             .fillMaxWidth(),
-        // on below line we are adding
-        // horizontal alignment for our column
+
         horizontalAlignment = Alignment.CenterHorizontally,
-        // on below line we are adding
-        // vertical arrangement for our column
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text(
-            // on below line we are specifying text to display.
-            text = "Image from File Path in Android",
-
-            // on below line we are specifying
-            // modifier to fill max width.
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
-
-            // on below line we are
-            // specifying text alignment.
-            textAlign = TextAlign.Center,
-
-            // on below line we are
-            // specifying color for our text.
-            color = Color.Black,
-
-            // on below line we are
-            // specifying font weight
-            fontWeight = FontWeight.Bold,
-
-            // on below line we
-            // are updating font size.
-            fontSize = 25.sp,
-        )
-
-        //val imgFile = File("/storage/emulated/0/Pictures/Helado.jpg")
-
-
-        // on below line we are checking if the image file exist or not.
-        /*var imgBitmap: Bitmap? = null
-        if (imgFile.exists()) {
-            // on below line we are creating an image bitmap variable
-            // and adding a bitmap to it from image file.
-            imgBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-        }*/
 
         Image(
-            //painter = rememberAsyncImagePainter(model = imgBitmap),
-            painter = rememberAsyncImagePainter(uri),
+            painter = rememberAsyncImagePainter(
+                model = uri
+            ),
             contentDescription = "Image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -279,5 +256,18 @@ fun displayImage(stfrinUri:String) {
     }
 }
 
+
+
+fun Context.createImageFile(): File {
+    // Create an image file name
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val imageFileName = "JPEG_" + timeStamp + "_"
+    val image = File.createTempFile(
+        imageFileName, /* prefix */
+        ".jpg", /* suffix */
+        externalCacheDir      /* directory */
+    )
+    return image
+}
 
 

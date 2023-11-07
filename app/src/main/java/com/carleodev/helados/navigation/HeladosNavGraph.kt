@@ -11,6 +11,8 @@ import androidx.navigation.navArgument
 import com.carleodev.helados.ui.home.AnimatedSplashScreen
 import com.carleodev.helados.ui.home.CrearItemDestination
 import com.carleodev.helados.ui.home.CrearItemScreen
+import com.carleodev.helados.ui.home.ListarItemDestination
+import com.carleodev.helados.ui.home.ListarItemScreen
 import com.carleodev.helados.ui.home.SplashDestino
 
 
@@ -35,6 +37,14 @@ fun HeladosNavHost(
         composable(route = CrearItemDestination.route) {
             CrearItemScreen(
                 onNavigateUp = { navController.navigateUp() },
+            )
+        }
+
+        composable(route = ListarItemDestination.route) {
+            ListarItemScreen(
+                onNavigateUp = { navController.navigateUp() },
+                navigateToEditItem = {}
+
             )
         }
 

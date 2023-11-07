@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Helados</string>
+    <string name="delete_question">¿Esta seguro que desea borrar?</string>
+    <string name="attention">Atención</string>
+    <string name="no">No</string>
+    <string name="yes">Si</string>
 </resources>
