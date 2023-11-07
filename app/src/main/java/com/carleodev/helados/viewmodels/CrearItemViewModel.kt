@@ -1,13 +1,16 @@
 package com.carleodev.helados.viewmodels
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.carleodev.helados.data.Item
 import com.carleodev.helados.data.ItemsRepository
-import com.carleodev.helados.data.OfflineItemsRepository
+import com.carleodev.helados.data.TasaRepository
+
 import kotlinx.coroutines.runBlocking
 
 
@@ -18,6 +21,10 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
     var datosValidos = false
     var itemUIState by mutableStateOf(ItemUIState())
 
+    /*var capturedImageUri by
+        mutableStateOf<Uri>(Uri.EMPTY)*/
+
+
     fun updateUiState(pitemUIState:ItemUIState) {
         itemUIState = pitemUIState
 
@@ -25,8 +32,8 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
 
     fun guardar() {
         runBlocking {
-            //itemsRepository.insertItem(itemUIState.toItem())
-
+           // itemUIState = itemUIState.copy(imagen=capturedImageUri.toString())
+            itemsRepository.insertItem(itemUIState.toItem())
 
         }
 
@@ -39,7 +46,7 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
 }
 
 data class ItemUIState(
-    val id: String = "",
+    val id: Int =0,
     val descrip: String="",
     val price: String="",
     val cantidad: String="",
@@ -50,16 +57,16 @@ data class ItemUIState(
 
 
 fun ItemUIState.toItem():Item = Item(
-    id = id.toInt(),
+    id = id,
     descrip = descrip,
-    price = price.toDouble(),
-    cantidad = cantidad.toInt(),
+    price =  price.toDoubleOrNull() ?: 0.0,
+    cantidad = cantidad.toIntOrNull() ?: 0,
     imagen = imagen,
-    estatus = estatus.toInt()
+    estatus = estatus.toIntOrNull() ?: 0
 )
 
 fun Item.toItemUIState():ItemUIState= ItemUIState(
-    id = id.toString(),
+    id = id,
     descrip = descrip,
     price = price.toString(),
     cantidad = cantidad.toString(),

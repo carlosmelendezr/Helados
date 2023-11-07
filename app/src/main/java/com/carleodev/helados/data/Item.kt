@@ -10,8 +10,7 @@ import kotlinx.coroutines.runBlocking
 
 @Entity(tableName = "items")
 data class Item(
-    @PrimaryKey(autoGenerate = false)
-    @Expose(serialize = false,deserialize = true)
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val descrip: String,
     val price: Double,

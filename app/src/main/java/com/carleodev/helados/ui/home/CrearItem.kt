@@ -108,12 +108,7 @@ fun FormularioItem(itemUIState:ItemUIState,
                    onGuardar:()->Unit,
                    modifier: Modifier = Modifier) {
 
-    val context = LocalContext.current
-
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    val result = remember { mutableStateOf<String?>("") }
-
     var capturedImageUri by remember {
         mutableStateOf<Uri>(Uri.EMPTY)
     }
@@ -122,6 +117,8 @@ fun FormularioItem(itemUIState:ItemUIState,
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
             if (it != null) {
                 capturedImageUri = it
+                onValueChange(itemUIState.copy(imagen = capturedImageUri.toString()))
+
             }
         }
 
@@ -189,20 +186,23 @@ fun FormularioItem(itemUIState:ItemUIState,
                     PickVisualMediaRequest(
                       mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
                 )
-                ).also { onValueChange(itemUIState.copy(imagen = capturedImageUri.toString())) }
+
+                )
+
             }
             ) {
                 Text("SELECCIONAR IMAGEN {${capturedImageUri.path} }")
             }
-            displayImage(capturedImageUri)
-
-            Spacer(modifier = Modifier.height(12.dp))
             Button(onClick = {
                 onGuardar()
             }
             ) {
                 Text("GUARDAR")
             }
+
+            displayImage(capturedImageUri.toString())
+
+            Spacer(modifier = Modifier.height(12.dp))
 
 
         }
@@ -211,7 +211,9 @@ fun FormularioItem(itemUIState:ItemUIState,
 }
 
 @Composable
-fun displayImage(uri:Uri) {
+fun displayImage(stfrinUri:String) {
+
+    val uri = Uri.parse(stfrinUri)
 
     Column(
 

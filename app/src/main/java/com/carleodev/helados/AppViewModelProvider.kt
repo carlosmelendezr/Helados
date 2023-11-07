@@ -22,9 +22,10 @@ object AppViewModelProvider {
         }
 
         initializer {
+
             CrearItemViewModel(
                 this.createSavedStateHandle(),
-                heladosApplication().container.itemsRepository
+                itemsRepository = heladosApplication().container.itemsRepository
 
             )
         }
