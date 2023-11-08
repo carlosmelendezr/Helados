@@ -56,6 +56,7 @@ import coil.compose.rememberImagePainter
 import com.carleodev.helados.AppViewModelProvider
 import com.carleodev.helados.BuildConfig
 import com.carleodev.helados.HeladosTopAppBar
+import com.carleodev.helados.data.convertToBitmap
 import com.carleodev.helados.navigation.NavigationDestination
 import com.carleodev.helados.viewmodels.CrearItemViewModel
 import com.carleodev.helados.viewmodels.ItemUIState
@@ -117,25 +118,27 @@ fun FormularioItem(itemUIState:ItemUIState,
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val context = LocalContext.current
-    val file = context.createImageFile()
+   /* val file = context.createImageFile()
     val uri = FileProvider.getUriForFile(
         Objects.requireNonNull(context),
         BuildConfig.APPLICATION_ID + ".provider", file
     )
 
-
     var capturedImageUri by remember {
         mutableStateOf<Uri>(Uri.EMPTY)
     }
 
+    var bitmap:Bitmap
+
     val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
             if (it != null) {
                 capturedImageUri = uri
+                //bitmap = convertToBitmap(uri =uri, context= context,50,50)
                 onValueChange(itemUIState.copy(imagen = capturedImageUri.toString()))
 
             }
-        }
+        }*/
 
 
     Card(
@@ -196,18 +199,18 @@ fun FormularioItem(itemUIState:ItemUIState,
             )
             Spacer(modifier = Modifier.height(12.dp))
 
-            Button(onClick = {
+            GetContentExample()
+
+           /* Button(onClick = {
                 launcher.launch(
-                    PickVisualMediaRequest(
-                      mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                )
+                    ActivityResultContracts.GetContent().toString()
 
                 )
 
             }
             ) {
                 Text("SELECCIONAR IMAGEN")
-            }
+            }*/
             Button(onClick = {
                 onGuardar()
                 //onNavigateUp()
@@ -216,7 +219,7 @@ fun FormularioItem(itemUIState:ItemUIState,
                 Text("GUARDAR")
             }
 
-            displayImage(capturedImageUri.toString())
+            //displayImage(capturedImageUri.toString())
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -224,6 +227,24 @@ fun FormularioItem(itemUIState:ItemUIState,
         }
     }
 
+}
+
+@Composable
+fun GetContentExample() {
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        imageUri = uri
+        Log.d("testimg",uri.toString())
+    }
+    Column {
+        Button(onClick = { launcher.launch("image/*") }) {
+            Text(text = "Load Image")
+        }
+        Image(
+            painter = rememberImagePainter(imageUri),
+            contentDescription = "My Image"
+        )
+    }
 }
 
 @Composable

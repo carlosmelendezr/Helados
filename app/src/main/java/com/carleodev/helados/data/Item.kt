@@ -1,6 +1,7 @@
 package com.carleodev.helados.data
 
 
+import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
