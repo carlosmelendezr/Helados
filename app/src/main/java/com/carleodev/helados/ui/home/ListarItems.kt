@@ -3,6 +3,7 @@ package com.carleodev.helados.ui.home
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -18,13 +19,17 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.Colors
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
@@ -32,9 +37,13 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
@@ -42,6 +51,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -115,13 +125,26 @@ private fun ListaItems(
     modifier: Modifier = Modifier,
     onDelete: (Item) -> Unit,
 ) {
-    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(3.dp)) {
+
+
+    LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(3),
+        content = {
+            items(itemList.size) { index ->
+                ListaItemRow(
+                    item = itemList[index],
+                    onItemClick = onItemClick, onDelete = onDelete
+                )
+            }
+        }
+    )
+
+    /*LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(3.dp)) {
         items(items = itemList, key = { it.id }) { listaitem ->
             ListaItemRow(item = listaitem,
                 onItemClick = onItemClick,onDelete=onDelete
             )
         }
-    }
+    }*/
 }
 
 
@@ -131,11 +154,11 @@ fun ListaItemRow(item:Item,
               onDelete: (Item) -> Unit) {
 
     val context = LocalContext.current
+    var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
 
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
-            .fillMaxWidth()
             .padding(15.dp),
         elevation = 10.dp)
 
@@ -148,18 +171,34 @@ fun ListaItemRow(item:Item,
 
                 )
 
-
-
+        Row() {
             mostarMiniatura(item.imagen)
 
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    item.price.toString(),
-                    modifier = Modifier
-                        .fillMaxWidth()
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                "Precio: ${item.price.toString()}$",
+                fontWeight = FontWeight.Bold,
+                fontSize = 30.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
 
+            )
+        }
+
+            IconButton(
+                onClick = { deleteConfirmationRequired = true }
+            ) {
+                Icon(Icons.Filled.Delete, contentDescription = "Borrar")
+            }
+            if (deleteConfirmationRequired) {
+                DeleteConfirmationDialog(
+                    onDeleteConfirm = {
+                        deleteConfirmationRequired = false
+                        onDelete(item)
+                    },
+                    onDeleteCancel = { deleteConfirmationRequired = false }
                 )
-
+            }
 
         }
     }
@@ -187,8 +226,8 @@ fun mostarMiniatura(bitmap: Bitmap?) {
             painter = rememberImagePainter(bitmap),
             contentDescription = "Image",
             modifier = Modifier
-                .width(100.dp)
-                .height(100.dp)
+                .width(150.dp)
+                .height(150.dp)
                 .padding(1.dp)
         )
     }
