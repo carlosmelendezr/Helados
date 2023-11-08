@@ -2,8 +2,8 @@ package com.carleodev.helados.ui.home
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -107,6 +108,23 @@ fun FormularioItem(itemUIState:ItemUIState,
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val context = LocalContext.current
+
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    var myBitmap by remember { mutableStateOf<Bitmap?>(null) }
+
+
+    /*val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        imageUri = uri
+        Log.d("testimg",uri.toString())
+        myBitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+
+    }**/
+
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        imageUri = uri
+        myBitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+
+    }
    /* val file = context.createImageFile()
     val uri = FileProvider.getUriForFile(
         Objects.requireNonNull(context),
@@ -188,19 +206,16 @@ fun FormularioItem(itemUIState:ItemUIState,
             )
             Spacer(modifier = Modifier.height(12.dp))
 
-            GetContentExample()
-
-           /* Button(onClick = {
-                launcher.launch(
-                    ActivityResultContracts.GetContent().toString()
-
-                )
-
+            Button(onClick = {
+                launcher.launch("image/*")
+                itemUIState.copy(imagen = myBitmap)
             }
+
             ) {
                 Text("SELECCIONAR IMAGEN")
-            }*/
+            }
             Button(onClick = {
+                onValueChange(itemUIState.copy(imagen = myBitmap))
                 onGuardar()
                 //onNavigateUp()
             }
@@ -208,7 +223,7 @@ fun FormularioItem(itemUIState:ItemUIState,
                 Text("GUARDAR")
             }
 
-            //displayImage(capturedImageUri.toString())
+            displayImage(myBitmap)
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -218,40 +233,18 @@ fun FormularioItem(itemUIState:ItemUIState,
 
 }
 
-@Composable
-fun GetContentExample() {
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
 
-    lateinit var myBitmap:Bitmap
-
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        imageUri = uri
-        Log.d("testimg",uri.toString())
-        myBitmap = BitmapFactory.decodeFile(uri?.encodedPath ?: null)
-
-    }
-    Column {
-        Button(onClick = { launcher.launch("image/*") }) {
-            Text(text = "Load Image")
-        }
-        Image(
-            painter = rememberImagePainter(myBitmap),
-            contentDescription = "My Image"
-        )
-    }
-}
 
 @Composable
-fun displayImage(stfrinUri:String) {
+fun displayImage(bitmap:Bitmap?) {
 
-    val uri = Uri.parse(stfrinUri)
+    //val uri = Uri.parse(stfrinUri)
 
     Column(
 
         Modifier
-            .fillMaxSize()
-            .fillMaxHeight()
-            .fillMaxWidth(),
+            .width(50.dp)
+            .height(50.dp),
 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -259,30 +252,17 @@ fun displayImage(stfrinUri:String) {
 
 
         Image(
-            painter = rememberAsyncImagePainter(
-                model = uri
-            ),
+            painter = rememberImagePainter(bitmap),
             contentDescription = "Image",
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(10.dp)
+                .width(100.dp)
+                .height(100.dp)
+                .padding(1.dp)
         )
     }
 }
 
 
 
-fun Context.createImageFile(): File {
-    // Create an image file name
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-    val imageFileName = "JPEG_" + timeStamp + "_"
-    val image = File.createTempFile(
-        imageFileName, /* prefix */
-        ".jpg", /* suffix */
-        externalCacheDir      /* directory */
-    )
-    return image
-}
 
 

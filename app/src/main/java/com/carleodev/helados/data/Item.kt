@@ -17,6 +17,6 @@ data class Item(
     val price: Double,
     val cantidad: Int,
     val estatus:Int,
-    val imagen:String
+    val imagen:Bitmap?
 )
 

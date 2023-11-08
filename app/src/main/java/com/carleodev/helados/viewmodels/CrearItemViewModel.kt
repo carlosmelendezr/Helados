@@ -1,15 +1,14 @@
 package com.carleodev.helados.viewmodels
 
-import android.net.Uri
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.carleodev.helados.data.Item
 import com.carleodev.helados.data.ItemsRepository
-import com.carleodev.helados.data.TasaRepository
 
 import kotlinx.coroutines.runBlocking
 
@@ -31,6 +30,7 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
     }
 
     fun guardar() {
+        Log.d("testimg", "Guardado")
         runBlocking {
            // itemUIState = itemUIState.copy(imagen=capturedImageUri.toString())
             itemsRepository.insertItem(itemUIState.toItem())
@@ -50,7 +50,7 @@ data class ItemUIState(
     val descrip: String="",
     val price: String="",
     val cantidad: String="",
-    val imagen:String="",
+    val imagen: Bitmap? = null,
     val estatus:String="",
     val isValid:Boolean=false
 )

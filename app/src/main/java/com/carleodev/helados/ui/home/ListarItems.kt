@@ -2,6 +2,7 @@ package com.carleodev.helados.ui.home
 
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -141,7 +142,7 @@ fun ListaItemRow(item:Item,
 
 
 
-            //mostarMiniatura(context.im)
+            mostarMiniatura(item.imagen)
 
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
@@ -158,7 +159,7 @@ fun ListaItemRow(item:Item,
 }
 
 @Composable
-fun mostarMiniatura(filePath:String) {
+fun mostarMiniatura(bitmap: Bitmap?) {
 
     //val uri = Uri.parse(stfrinUri)
 
@@ -175,12 +176,12 @@ fun mostarMiniatura(filePath:String) {
 
 
         Image(
-            painter = rememberAsyncImagePainter(model = File(filePath)),
+            painter = rememberImagePainter(bitmap),
             contentDescription = "Image",
             modifier = Modifier
                 .width(100.dp)
                 .height(100.dp)
-                .padding(5.dp)
+                .padding(1.dp)
         )
     }
 }
