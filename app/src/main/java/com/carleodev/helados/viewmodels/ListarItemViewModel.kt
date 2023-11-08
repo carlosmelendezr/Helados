@@ -24,6 +24,8 @@ class ListarItemViewModel(savedStateHandle: SavedStateHandle,
                          private val itemsRepository: ItemsRepository
 
 ) : ViewModel() {
+    var tasaDia by mutableStateOf("")
+    var tasaDolar:Double=0.0
 
     val listaUiState: StateFlow<ListaUiState> =
         itemsRepository.getAllItemsStream().map { ListaUiState(it)  }
@@ -35,6 +37,14 @@ class ListarItemViewModel(savedStateHandle: SavedStateHandle,
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
+    }
+
+    fun updateTasa(tasa:String) {
+        if (tasa.isNotBlank()) {
+            tasaDia = tasa
+            tasaDolar = tasa.toDoubleOrNull()?:0.0
+        }
+
     }
 
     fun deleteLista(item: Item) {

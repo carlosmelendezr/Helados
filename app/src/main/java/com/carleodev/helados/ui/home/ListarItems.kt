@@ -22,6 +22,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -42,15 +45,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -78,6 +84,7 @@ object ListarItemDestination : NavigationDestination {
 }
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ListarItemScreen(
     onNavigateUp: () -> Unit,
@@ -87,13 +94,15 @@ fun ListarItemScreen(
 {
     val listaUiState by viewModel.listaUiState.collectAsState()
 
+
     Scaffold(
         topBar = {
             HeladosTopAppBar(
-                title = "Listado de Items" ,
+                title = "Articulos" ,
                 canNavigateBack = false,
                 navigateUp = onNavigateUp
             )
+
         }, floatingActionButton = {
             FloatingActionButton(
                 onClick = { navigateToEditItem(0) },
@@ -113,45 +122,73 @@ fun ListarItemScreen(
         ListaItems(itemList= listaUiState.listas,
             onItemClick = navigateToEditItem,
             onDelete = viewModel::deleteLista,
-            modifier = modifier.padding(innerPadding))
+            modifier = modifier.padding(innerPadding),
+            viewModel = viewModel)
 
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ListaItems(
     itemList: List<Item>,
     onItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     onDelete: (Item) -> Unit,
+    viewModel: ListarItemViewModel
 ) {
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+    var modTasa by remember { mutableStateOf<Boolean>(false) }
+
+    Column() {
+        Button(onClick = {
+           modTasa=true
+        }
+
+        ) {
+            Text("TASA ${viewModel.tasaDia}$/Bs")
+        }
+    if (modTasa) {
+     OutlinedTextField(
+        value = viewModel.tasaDia,
+        modifier = Modifier
+            .fillMaxWidth(),
+        label = { Text("Tasa del Dia :") },
+        onValueChange = { viewModel.updateTasa(it) },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide()
+                modTasa=false
+            }),
+    )
+    }
 
     LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(3),
         content = {
             items(itemList.size) { index ->
                 ListaItemRow(
                     item = itemList[index],
-                    onItemClick = onItemClick, onDelete = onDelete
+                    onItemClick = onItemClick, onDelete = onDelete,
+                    tasa=viewModel.tasaDolar
                 )
             }
         }
     )
+}
 
-    /*LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(3.dp)) {
-        items(items = itemList, key = { it.id }) { listaitem ->
-            ListaItemRow(item = listaitem,
-                onItemClick = onItemClick,onDelete=onDelete
-            )
-        }
-    }*/
+
 }
 
 
 @Composable
 fun ListaItemRow(item:Item,
               onItemClick: (Int) -> Unit,
-              onDelete: (Item) -> Unit) {
+              onDelete: (Item) -> Unit, tasa:Double) {
 
     val context = LocalContext.current
     var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
@@ -173,16 +210,25 @@ fun ListaItemRow(item:Item,
 
         Row() {
             mostarMiniatura(item.imagen)
+        Column() {
 
-            Spacer(modifier = Modifier.height(12.dp))
             Text(
-                "Precio: ${item.price.toString()}$",
-                fontWeight = FontWeight.Bold,
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
+        " ${item.price}$",
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        modifier = Modifier
+            .fillMaxWidth()
 
-            )
+    )
+            Text(
+        " ${item.price * tasa}Bs.",
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        modifier = Modifier
+            .fillMaxWidth()
+
+    )
+}
         }
 
             IconButton(
@@ -226,7 +272,7 @@ fun mostarMiniatura(bitmap: Bitmap?) {
             painter = rememberImagePainter(bitmap),
             contentDescription = "Image",
             modifier = Modifier
-                .width(150.dp)
+                .width(110.dp)
                 .height(150.dp)
                 .padding(1.dp)
         )
