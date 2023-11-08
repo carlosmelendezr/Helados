@@ -1,15 +1,11 @@
 package com.carleodev.helados.ui.home
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.provider.OpenableColumns
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -39,31 +35,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.FileProvider
-import androidx.core.net.toFile
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.carleodev.helados.AppViewModelProvider
-import com.carleodev.helados.BuildConfig
 import com.carleodev.helados.HeladosTopAppBar
-import com.carleodev.helados.data.convertToBitmap
 import com.carleodev.helados.navigation.NavigationDestination
 import com.carleodev.helados.viewmodels.CrearItemViewModel
 import com.carleodev.helados.viewmodels.ItemUIState
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Objects
 
 
 object CrearItemDestination : NavigationDestination {
@@ -232,16 +221,21 @@ fun FormularioItem(itemUIState:ItemUIState,
 @Composable
 fun GetContentExample() {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+    lateinit var myBitmap:Bitmap
+
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         imageUri = uri
         Log.d("testimg",uri.toString())
+        myBitmap = BitmapFactory.decodeFile(uri?.encodedPath ?: null)
+
     }
     Column {
         Button(onClick = { launcher.launch("image/*") }) {
             Text(text = "Load Image")
         }
         Image(
-            painter = rememberImagePainter(imageUri),
+            painter = rememberImagePainter(myBitmap),
             contentDescription = "My Image"
         )
     }
