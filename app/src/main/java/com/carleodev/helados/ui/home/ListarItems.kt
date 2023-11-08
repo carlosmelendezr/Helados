@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.carleodev.helados.AppViewModelProvider
 import com.carleodev.helados.HeladosTopAppBar
 import com.carleodev.helados.R
@@ -119,6 +121,8 @@ fun ListaItemRow(item:Item,
               onItemClick: (Int) -> Unit,
               onDelete: (Item) -> Unit) {
 
+    val context = LocalContext.current
+
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
@@ -135,14 +139,9 @@ fun ListaItemRow(item:Item,
 
                 )
 
-            Text(
-                item.imagen,
-                modifier = Modifier
-                    .fillMaxWidth()
 
-            )
 
-            mostarMiniatura(item.imagen)
+            //mostarMiniatura(context.im)
 
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
@@ -159,9 +158,9 @@ fun ListaItemRow(item:Item,
 }
 
 @Composable
-fun mostarMiniatura(stfrinUri:String) {
+fun mostarMiniatura(filePath:String) {
 
-    val uri = Uri.parse(stfrinUri)
+    //val uri = Uri.parse(stfrinUri)
 
     Column(
 
@@ -176,11 +175,8 @@ fun mostarMiniatura(stfrinUri:String) {
 
 
         Image(
-            painter = rememberAsyncImagePainter(model=uri,
-                error = painterResource(id = R.drawable.errorimage),
-                onError = { Log.e("imagenes","Error cargando imagen")}),
+            painter = rememberAsyncImagePainter(model = File(filePath)),
             contentDescription = "Image",
-
             modifier = Modifier
                 .width(100.dp)
                 .height(100.dp)
