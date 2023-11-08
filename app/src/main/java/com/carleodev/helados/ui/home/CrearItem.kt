@@ -178,6 +178,22 @@ fun FormularioItem(itemUIState:ItemUIState,
                     }),
             )
             Spacer(modifier = Modifier.height(12.dp))
+            OutlinedTextField(
+                value = itemUIState.preciobs,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                label = { Text("Precio Bs") },
+                onValueChange = { onValueChange(itemUIState.copy(preciobs = it)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                    }),
+            )
+            Spacer(modifier = Modifier.height(12.dp))
 
             Button(onClick = {
                 launcher.launch("image/*")

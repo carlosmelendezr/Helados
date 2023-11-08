@@ -10,7 +10,7 @@ import androidx.room.TypeConverters
  * Database class with a singleton INSTANCE object.
  */
 @Database(entities = [Item::class, Pagos::class, Ticket::class, Tasa::class],
-    version = 4 , exportSchema = false)
+    version = 5 , exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class HeladosDatabase : RoomDatabase() {
 

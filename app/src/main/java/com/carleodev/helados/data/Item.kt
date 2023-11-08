@@ -15,6 +15,7 @@ data class Item(
     val id: Int = 0,
     val descrip: String,
     val price: Double,
+    val preciobs: Double,
     val cantidad: Int,
     val estatus:Int,
     val imagen:Bitmap?

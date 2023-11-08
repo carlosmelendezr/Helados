@@ -142,7 +142,7 @@ private fun ListaItems(
     var modTasa by remember { mutableStateOf<Boolean>(false) }
 
     Column() {
-        Button(onClick = {
+       /* Button(onClick = {
            modTasa=true
         }
 
@@ -166,7 +166,7 @@ private fun ListaItems(
                 modTasa=false
             }),
     )
-    }
+    }*/
 
     LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(3),
         content = {
@@ -213,7 +213,7 @@ fun ListaItemRow(item:Item,
         Column() {
 
             Text(
-        " ${item.price}$",
+        " ${item.price} $",
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         modifier = Modifier
@@ -221,7 +221,7 @@ fun ListaItemRow(item:Item,
 
     )
             Text(
-        " ${item.price * tasa}Bs.",
+        " ${item.preciobs} Bs.",
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         modifier = Modifier
