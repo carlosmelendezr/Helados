@@ -34,7 +34,12 @@ fun HeladosNavHost(
             )
         }
 
-        composable(route = CrearItemDestination.route) {
+
+
+        composable(route = CrearItemDestination.routeWithArgs,
+                arguments = listOf(navArgument(CrearItemDestination.itemIdArg) {
+            type = NavType.IntType })
+        ) {
             CrearItemScreen(
                 onNavigateUp = { navController.navigateUp() },
             )
@@ -43,7 +48,7 @@ fun HeladosNavHost(
         composable(route = ListarItemDestination.route) {
             ListarItemScreen(
                 onNavigateUp = { navController.navigateUp() },
-                navigateToEditItem = {}
+                navigateToEditItem = {navController.navigate("${CrearItemDestination.route}/${it}")}
 
             )
         }

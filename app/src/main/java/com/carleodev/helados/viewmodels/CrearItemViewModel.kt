@@ -9,6 +9,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.carleodev.helados.data.Item
 import com.carleodev.helados.data.ItemsRepository
+import com.carleodev.helados.ui.home.CrearItemDestination
 
 import kotlinx.coroutines.runBlocking
 
@@ -17,7 +18,9 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
                          private val itemsRepository: ItemsRepository
 
 ) : ViewModel() {
-    var datosValidos = false
+
+    var itemId: Int = checkNotNull(savedStateHandle[CrearItemDestination.itemIdArg])
+
     var itemUIState by mutableStateOf(ItemUIState())
 
     /*var capturedImageUri by
@@ -26,11 +29,13 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
 
     fun updateUiState(pitemUIState:ItemUIState) {
         itemUIState = pitemUIState
+        itemUIState.isValid=validate(pitemUIState)
+
 
     }
 
     fun guardar() {
-        Log.d("testimg", "Guardado")
+
         runBlocking {
            // itemUIState = itemUIState.copy(imagen=capturedImageUri.toString())
             itemsRepository.insertItem(itemUIState.toItem())
@@ -39,10 +44,7 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
 
     }
 
-    fun validate():Boolean {
-        return itemUIState.descrip.isNotBlank() &&
-                itemUIState.price.isNotBlank()
-    }
+
 }
 
 data class ItemUIState(
@@ -52,8 +54,14 @@ data class ItemUIState(
     val cantidad: String="",
     val imagen: Bitmap? = null,
     val estatus:String="",
-    val isValid:Boolean=false
+    var isValid:Boolean=false
 )
+
+fun validate(itemUIState:ItemUIState):Boolean {
+    return itemUIState.descrip.isNotBlank() &&
+            itemUIState.price.isNotBlank() &&
+            itemUIState.imagen!=null
+}
 
 
 fun ItemUIState.toItem():Item = Item(

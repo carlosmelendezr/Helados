@@ -59,6 +59,8 @@ import java.util.Date
 object CrearItemDestination : NavigationDestination {
     override val route = "crearitem"
     override val titleRes = 1
+    const val itemIdArg = "itemId"
+    val routeWithArgs = "$route/{$itemIdArg}"
 }
 
 
@@ -73,7 +75,7 @@ fun CrearItemScreen(
         topBar = {
             HeladosTopAppBar(
                 title = "Crear/Modificar Item" ,
-                canNavigateBack = false,
+                canNavigateBack = true,
                 navigateUp = onNavigateUp
             )
         }, floatingActionButton = {
@@ -113,40 +115,11 @@ fun FormularioItem(itemUIState:ItemUIState,
     var myBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
 
-    /*val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        imageUri = uri
-        Log.d("testimg",uri.toString())
-        myBitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-
-    }**/
-
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         imageUri = uri
         myBitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
 
     }
-   /* val file = context.createImageFile()
-    val uri = FileProvider.getUriForFile(
-        Objects.requireNonNull(context),
-        BuildConfig.APPLICATION_ID + ".provider", file
-    )
-
-    var capturedImageUri by remember {
-        mutableStateOf<Uri>(Uri.EMPTY)
-    }
-
-    var bitmap:Bitmap
-
-    val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
-            if (it != null) {
-                capturedImageUri = uri
-                //bitmap = convertToBitmap(uri =uri, context= context,50,50)
-                onValueChange(itemUIState.copy(imagen = capturedImageUri.toString()))
-
-            }
-        }*/
-
 
     Card(
 
@@ -217,8 +190,8 @@ fun FormularioItem(itemUIState:ItemUIState,
             Button(onClick = {
                 onValueChange(itemUIState.copy(imagen = myBitmap))
                 onGuardar()
-                //onNavigateUp()
-            }
+                onNavigateUp()
+            },
             ) {
                 Text("GUARDAR")
             }
@@ -237,8 +210,6 @@ fun FormularioItem(itemUIState:ItemUIState,
 
 @Composable
 fun displayImage(bitmap:Bitmap?) {
-
-    //val uri = Uri.parse(stfrinUri)
 
     Column(
 
