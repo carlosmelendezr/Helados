@@ -129,12 +129,12 @@ fun FormularioItem(itemUIState:ItemUIState,
     }
 
     val launcher =
-        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {
-            if (it != null) {
-                capturedImageUri = uri
+        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) {uri ->
+                if (uri != null) {
+                    capturedImageUri = uri
+                }
                 onValueChange(itemUIState.copy(imagen = capturedImageUri.toString()))
 
-            }
         }
 
 
@@ -260,7 +260,7 @@ fun displayImage(stfrinUri:String) {
 
 fun Context.createImageFile(): File {
     // Create an image file name
-    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val timeStamp = SimpleDateFormat("yyyyMMdd").format(Date())
     val imageFileName = "JPEG_" + timeStamp + "_"
     val image = File.createTempFile(
         imageFileName, /* prefix */
