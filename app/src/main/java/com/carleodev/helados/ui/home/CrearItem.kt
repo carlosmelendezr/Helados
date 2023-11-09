@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -113,6 +114,7 @@ fun FormularioItem(itemUIState:ItemUIState,
 
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var myBitmap by remember { mutableStateOf<Bitmap?>(null) }
+    myBitmap = itemUIState.imagen
 
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -141,9 +143,6 @@ fun FormularioItem(itemUIState:ItemUIState,
             )
 
             Row {
-                // Encabezado
-
-
                 OutlinedTextField(
                     value = itemUIState.descrip,
                     modifier = Modifier
@@ -196,15 +195,26 @@ fun FormularioItem(itemUIState:ItemUIState,
             Spacer(modifier = Modifier.height(12.dp))
 
             Button(onClick = {
-                launcher.launch("image/*")
-                itemUIState.copy(imagen = myBitmap)
+                launcher.launch("image/*").also {
+                    if ( myBitmap!=null) {
+                        itemUIState.copy(imagen = myBitmap)
+                    }
+                }
             }
 
             ) {
                 Text("SELECCIONAR IMAGEN")
             }
+
+            Spacer(modifier = Modifier.height(12.dp))
+            displayImage(myBitmap)
+            Spacer(modifier = Modifier.height(12.dp))
+
             Button(onClick = {
-                onValueChange(itemUIState.copy(imagen = myBitmap))
+                if ( myBitmap!=null) {
+                    onValueChange(itemUIState.copy(imagen = myBitmap))
+                }
+                //
                 onGuardar()
                 onNavigateUp()
             },
@@ -212,9 +222,7 @@ fun FormularioItem(itemUIState:ItemUIState,
                 Text("GUARDAR")
             }
 
-            displayImage(myBitmap)
 
-            Spacer(modifier = Modifier.height(12.dp))
 
 
         }
@@ -230,8 +238,8 @@ fun displayImage(bitmap:Bitmap?) {
     Column(
 
         Modifier
-            .width(50.dp)
-            .height(50.dp),
+            .width(150.dp)
+            .height(150.dp),
 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -242,8 +250,8 @@ fun displayImage(bitmap:Bitmap?) {
             painter = rememberImagePainter(bitmap),
             contentDescription = "Image",
             modifier = Modifier
-                .width(100.dp)
-                .height(100.dp)
+                .width(150.dp)
+                .height(150.dp)
                 .padding(1.dp)
         )
     }

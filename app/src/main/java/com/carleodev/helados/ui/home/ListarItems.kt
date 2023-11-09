@@ -6,7 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,6 +43,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -186,6 +189,7 @@ private fun ListaItems(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListaItemRow(item:Item,
               onItemClick: (Int) -> Unit,
@@ -193,6 +197,7 @@ fun ListaItemRow(item:Item,
 
     val context = LocalContext.current
     var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
+    var habilitarBotones by rememberSaveable { mutableStateOf(false) }
 
     Card(
         shape = MaterialTheme.shapes.medium,
@@ -209,7 +214,11 @@ fun ListaItemRow(item:Item,
 
                 )
 
-        Row() {
+        Row(modifier = Modifier
+            .combinedClickable (
+                onClick = {habilitarBotones=false},
+                onLongClick = { habilitarBotones=true}
+            )) {
             mostarMiniatura(item.imagen)
             Column() {
 
@@ -237,20 +246,29 @@ fun ListaItemRow(item:Item,
                 }
 }
         }
-
-            IconButton(
-                onClick = { deleteConfirmationRequired = true }
-            ) {
-                Icon(Icons.Filled.Delete, contentDescription = "Borrar")
-            }
-            if (deleteConfirmationRequired) {
-                DeleteConfirmationDialog(
-                    onDeleteConfirm = {
-                        deleteConfirmationRequired = false
-                        onDelete(item)
-                    },
-                    onDeleteCancel = { deleteConfirmationRequired = false }
-                )
+            if (habilitarBotones) {
+                Row() {
+                    IconButton(
+                        onClick = { deleteConfirmationRequired = true }
+                    ) {
+                        Icon(Icons.Filled.Delete, contentDescription = "Borrar")
+                    }
+                    if (deleteConfirmationRequired) {
+                        DeleteConfirmationDialog(
+                            onDeleteConfirm = {
+                                deleteConfirmationRequired = false
+                                onDelete(item)
+                            },
+                            onDeleteCancel = { deleteConfirmationRequired = false }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(24.dp))
+                    IconButton(
+                        onClick = { onItemClick(item.id) }
+                    ) {
+                        Icon(Icons.Filled.Edit, contentDescription = "Borrar")
+                    }
+                }
             }
 
         }

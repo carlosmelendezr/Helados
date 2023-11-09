@@ -7,9 +7,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.carleodev.helados.data.Item
 import com.carleodev.helados.data.ItemsRepository
 import com.carleodev.helados.ui.home.CrearItemDestination
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 import kotlinx.coroutines.runBlocking
 
@@ -23,8 +27,17 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
 
     var itemUIState by mutableStateOf(ItemUIState())
 
-    /*var capturedImageUri by
-        mutableStateOf<Uri>(Uri.EMPTY)*/
+
+    init {
+        if (itemId>0) {
+            viewModelScope.launch {
+                itemUIState = itemsRepository.getItemStream(itemId)
+                    .filterNotNull()
+                    .first()
+                    .toItemUIState()
+            }
+        }
+    }
 
 
     fun updateUiState(pitemUIState:ItemUIState) {
@@ -37,8 +50,11 @@ class CrearItemViewModel(savedStateHandle: SavedStateHandle,
     fun guardar() {
 
         runBlocking {
-           // itemUIState = itemUIState.copy(imagen=capturedImageUri.toString())
-            itemsRepository.insertItem(itemUIState.toItem())
+            if (itemId==0) {
+                itemsRepository.insertItem(itemUIState.toItem())
+            } else {
+                itemsRepository.updateItem(itemUIState.toItem())
+            }
 
         }
 
