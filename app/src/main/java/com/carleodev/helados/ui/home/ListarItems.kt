@@ -123,7 +123,8 @@ fun ListarItemScreen(
             onItemClick = navigateToEditItem,
             onDelete = viewModel::deleteLista,
             modifier = modifier.padding(innerPadding),
-            viewModel = viewModel)
+            onGenerarTicket = viewModel::guardarTicket,
+          )
 
     }
 }
@@ -135,7 +136,7 @@ private fun ListaItems(
     onItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     onDelete: (Item) -> Unit,
-    viewModel: ListarItemViewModel
+    onGenerarTicket: (Item) -> Unit
 ) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -174,7 +175,7 @@ private fun ListaItems(
                 ListaItemRow(
                     item = itemList[index],
                     onItemClick = onItemClick, onDelete = onDelete,
-                    tasa=viewModel.tasaDolar
+                    onGenerarTicket=onGenerarTicket
                 )
             }
         }
@@ -188,7 +189,7 @@ private fun ListaItems(
 @Composable
 fun ListaItemRow(item:Item,
               onItemClick: (Int) -> Unit,
-              onDelete: (Item) -> Unit, tasa:Double) {
+              onDelete: (Item) -> Unit, onGenerarTicket: (Item) -> Unit) {
 
     val context = LocalContext.current
     var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
@@ -210,24 +211,30 @@ fun ListaItemRow(item:Item,
 
         Row() {
             mostarMiniatura(item.imagen)
-        Column() {
+            Column() {
 
-            Text(
-        " ${item.price} $",
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        modifier = Modifier
-            .fillMaxWidth()
+                Text(
+                " ${item.price} $",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                    .fillMaxWidth()
 
-    )
-            Text(
-        " ${item.preciobs} Bs.",
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        modifier = Modifier
-            .fillMaxWidth()
+                )
+                Text(
+                " ${item.preciobs} Bs.",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                    .fillMaxWidth()
 
-    )
+                )
+                Button(onClick = {
+                    onGenerarTicket(item)
+                },
+                ) {
+                    Text("VENDER")
+                }
 }
         }
 

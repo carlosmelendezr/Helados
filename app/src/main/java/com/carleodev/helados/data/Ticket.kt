@@ -12,7 +12,6 @@ data class Ticket(
     @PrimaryKey(autoGenerate = true)
     @Expose(serialize = false,deserialize = true)
     val id: Int = 0,
-    val idcontrol: Int,
     val fecha: Int,
     val iditem: Int,
     val hora: Int,

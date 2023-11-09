@@ -26,7 +26,9 @@ object AppViewModelProvider {
 
             ListarItemViewModel(
                 this.createSavedStateHandle(),
-                itemsRepository = heladosApplication().container.itemsRepository
+                itemsRepository = heladosApplication().container.itemsRepository,
+                heladosApplication().container.ticketRepository,
+                heladosApplication()
 
             )
         }

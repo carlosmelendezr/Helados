@@ -16,7 +16,6 @@ interface TicketDao {
 
     @Query("SELECT ticket.id," +
             "ticket.iditem," +
-            "ticket.idcontrol," +
             "ticket.cant," +
             "ticket.fecha," +
             "ticket.hora," +
