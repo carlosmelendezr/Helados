@@ -61,14 +61,14 @@ private fun getSomePrintables(context:Context,
     //add(RawPrintable.Builder(byteArrayOf(27, 100, 4)).build()) // feed lines example in raw mode
 
 
-    /*val LogoImparques: Bitmap = BitmapFactory.decodeResource(context.resources,
-        com.carleodev.botes.R.drawable.logoimparques)
+    val LogoHelado: Bitmap = BitmapFactory.decodeResource(context.resources,
+        com.carleodev.helados.R.drawable.helado)
 
     //logo
     add(ImagePrintable.Builder(
-        LogoImparques)
+        LogoHelado)
         .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
-        .build())*/
+        .build())
 
     add(
         TextPrintable.Builder()

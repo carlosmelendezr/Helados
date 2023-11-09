@@ -128,19 +128,11 @@ fun FormularioItem(itemUIState:ItemUIState,
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(15.dp),
+            .padding(5.dp),
         elevation = 10.dp)
 
     {
         Column() {
-
-            Text(
-                text = "CREAR/MODIFICAR ITEM",
-                style = MaterialTheme.typography.h6,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
 
             Row {
                 OutlinedTextField(
@@ -160,39 +152,37 @@ fun FormularioItem(itemUIState:ItemUIState,
 
                     )
             }
-            Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(
-                value = itemUIState.price,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                label = { Text("Precio $") },
-                onValueChange = { onValueChange(itemUIState.copy(price = it)) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        keyboardController?.hide()
-                    }),
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(
-                value = itemUIState.preciobs,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                label = { Text("Precio Bs") },
-                onValueChange = { onValueChange(itemUIState.copy(preciobs = it)) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        keyboardController?.hide()
-                    }),
-            )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(2.dp))
+            Row () {
+                OutlinedTextField(
+                    value = itemUIState.price,
+                    label = { Text("Precio $") },
+                    onValueChange = { onValueChange(itemUIState.copy(price = it)) },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                        }),
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                OutlinedTextField(
+                    value = itemUIState.preciobs,
+                    label = { Text("Precio Bs") },
+                    onValueChange = { onValueChange(itemUIState.copy(preciobs = it)) },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                        }),
+                )
+            }
+            Spacer(modifier = Modifier.height(2.dp))
 
             Button(onClick = {
                 launcher.launch("image/*").also {
@@ -206,10 +196,8 @@ fun FormularioItem(itemUIState:ItemUIState,
                 Text("SELECCIONAR IMAGEN")
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
-            displayImage(myBitmap)
-            Spacer(modifier = Modifier.height(12.dp))
 
+            displayImage(myBitmap)
             Button(onClick = {
                 if ( myBitmap!=null) {
                     onValueChange(itemUIState.copy(imagen = myBitmap))

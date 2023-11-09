@@ -172,7 +172,7 @@ private fun ListaItems(
     )
     }*/
 
-    LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(3),
+    LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(2),
         content = {
             items(itemList.size) { index ->
                 ListaItemRow(
@@ -202,7 +202,7 @@ fun ListaItemRow(item:Item,
     Card(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
-            .padding(15.dp),
+            .padding(5.dp),
         elevation = 10.dp)
 
     {
@@ -226,16 +226,14 @@ fun ListaItemRow(item:Item,
                 " ${item.price} $",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    modifier = Modifier
-                    .fillMaxWidth()
+
 
                 )
                 Text(
                 " ${item.preciobs} Bs.",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    modifier = Modifier
-                    .fillMaxWidth()
+
 
                 )
                 Button(onClick = {
