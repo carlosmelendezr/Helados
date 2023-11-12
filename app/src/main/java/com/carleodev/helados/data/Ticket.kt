@@ -8,7 +8,6 @@ import com.google.gson.annotations.Expose
 
 @Entity(tableName = "ticket")
 data class Ticket(
-
     @PrimaryKey(autoGenerate = true)
     @Expose(serialize = false,deserialize = true)
     val id: Int = 0,
@@ -16,6 +15,8 @@ data class Ticket(
     val iditem: Int,
     val hora: Int,
     val cant:Int,
+    val sabor:String,
+    val toping:String,
+    val lluvia:String,
     val anulado: Boolean = false,
-
 )

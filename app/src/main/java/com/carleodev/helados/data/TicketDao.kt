@@ -20,7 +20,10 @@ interface TicketDao {
             "ticket.fecha," +
             "ticket.hora," +
             "ticket.iditem," +
-            "ticket.anulado " +
+            "ticket.anulado, " +
+            "ticket.sabor, " +
+            "ticket.toping, " +
+            "ticket.lluvia " +
             "FROM ticket " +
             "LEFT JOIN items ON ticket.iditem=items.id " +
             "WHERE ticket.id = :id " )

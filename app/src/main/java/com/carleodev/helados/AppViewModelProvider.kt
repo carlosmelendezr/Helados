@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.carleodev.helados.viewmodels.CrearItemViewModel
+import com.carleodev.helados.viewmodels.GenerarTicketViewModel
 import com.carleodev.helados.viewmodels.ListarItemViewModel
 import com.carleodev.helados.viewmodels.SplashViewModel
 
@@ -26,18 +27,25 @@ object AppViewModelProvider {
 
             ListarItemViewModel(
                 this.createSavedStateHandle(),
-                itemsRepository = heladosApplication().container.itemsRepository,
-                heladosApplication().container.ticketRepository,
-                heladosApplication()
+                itemsRepository = heladosApplication().container.itemsRepository
 
             )
         }
 
         initializer {
-
             CrearItemViewModel(
                 this.createSavedStateHandle(),
                 itemsRepository = heladosApplication().container.itemsRepository
+
+            )
+        }
+
+        initializer {
+            GenerarTicketViewModel(
+                this.createSavedStateHandle(),
+                itemsRepository = heladosApplication().container.itemsRepository,
+                ticketRepository = heladosApplication().container.ticketRepository,
+                heladosApplication()
 
             )
         }

@@ -92,6 +92,7 @@ object ListarItemDestination : NavigationDestination {
 fun ListarItemScreen(
     onNavigateUp: () -> Unit,
     navigateToEditItem: (Int) -> Unit,
+    navigateToGenerar: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ListarItemViewModel = viewModel(factory = AppViewModelProvider.Factory))
 {
@@ -126,7 +127,7 @@ fun ListarItemScreen(
             onItemClick = navigateToEditItem,
             onDelete = viewModel::deleteLista,
             modifier = modifier.padding(innerPadding),
-            onGenerarTicket = viewModel::guardarTicket,
+            onGenerarTicket = navigateToGenerar,
           )
 
     }
@@ -139,38 +140,14 @@ private fun ListaItems(
     onItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     onDelete: (Item) -> Unit,
-    onGenerarTicket: (Item) -> Unit
+    onGenerarTicket: (Int) -> Unit
 ) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
     var modTasa by remember { mutableStateOf<Boolean>(false) }
 
     Column() {
-       /* Button(onClick = {
-           modTasa=true
-        }
 
-        ) {
-            Text("TASA ${viewModel.tasaDia}$/Bs")
-        }
-    if (modTasa) {
-     OutlinedTextField(
-        value = viewModel.tasaDia,
-        modifier = Modifier
-            .fillMaxWidth(),
-        label = { Text("Tasa del Dia :") },
-        onValueChange = { viewModel.updateTasa(it) },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboardController?.hide()
-                modTasa=false
-            }),
-    )
-    }*/
 
     LazyVerticalGrid(modifier = modifier, columns = GridCells.Fixed(2),
         content = {
@@ -184,8 +161,6 @@ private fun ListaItems(
         }
     )
 }
-
-
 }
 
 
@@ -193,7 +168,8 @@ private fun ListaItems(
 @Composable
 fun ListaItemRow(item:Item,
               onItemClick: (Int) -> Unit,
-              onDelete: (Item) -> Unit, onGenerarTicket: (Item) -> Unit) {
+              onDelete: (Item) -> Unit,
+                 onGenerarTicket: (Int) -> Unit) {
 
     val context = LocalContext.current
     var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
@@ -237,7 +213,7 @@ fun ListaItemRow(item:Item,
 
                 )
                 Button(onClick = {
-                    onGenerarTicket(item)
+                    onGenerarTicket(item.id)
                 },
                 ) {
                     Text("VENDER")

@@ -11,6 +11,8 @@ import androidx.navigation.navArgument
 import com.carleodev.helados.ui.home.AnimatedSplashScreen
 import com.carleodev.helados.ui.home.CrearItemDestination
 import com.carleodev.helados.ui.home.CrearItemScreen
+import com.carleodev.helados.ui.home.GenerarTicketDestination
+import com.carleodev.helados.ui.home.GenerarTicketScreen
 import com.carleodev.helados.ui.home.ListarItemDestination
 import com.carleodev.helados.ui.home.ListarItemScreen
 import com.carleodev.helados.ui.home.SplashDestino
@@ -48,8 +50,18 @@ fun HeladosNavHost(
         composable(route = ListarItemDestination.route) {
             ListarItemScreen(
                 onNavigateUp = { navController.navigateUp() },
+                navigateToGenerar = {navController.navigate("${GenerarTicketDestination.route}/${it}")},
                 navigateToEditItem = {navController.navigate("${CrearItemDestination.route}/${it}")}
 
+            )
+        }
+
+        composable(route = GenerarTicketDestination.routeWithArgs,
+            arguments = listOf(navArgument(CrearItemDestination.itemIdArg) {
+                type = NavType.IntType })
+        ) {
+            GenerarTicketScreen(
+                onNavigateUp = { navController.navigateUp() },
             )
         }
 

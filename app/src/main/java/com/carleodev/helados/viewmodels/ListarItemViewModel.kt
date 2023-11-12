@@ -28,10 +28,7 @@ import java.util.Date
 
 
 class ListarItemViewModel(savedStateHandle: SavedStateHandle,
-                          private val itemsRepository: ItemsRepository,
-                          private val ticketRepository: TicketRepository,
-                          private val context: Context
-
+                          private val itemsRepository: ItemsRepository
                           ) : ViewModel() {
     var tasaDia by mutableStateOf("")
     var tasaDolar:Double=0.0
@@ -46,7 +43,7 @@ class ListarItemViewModel(savedStateHandle: SavedStateHandle,
                 initialValue = ListaUiState()
             )
 
-    fun guardarTicket  (item:Item) {
+    /*fun guardarTicket  (item:Item) {
         var lastId:Long =0
 
         val ticket = Ticket(
@@ -65,7 +62,7 @@ class ListarItemViewModel(savedStateHandle: SavedStateHandle,
 
         }
 
-    }
+    }*/
 
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
