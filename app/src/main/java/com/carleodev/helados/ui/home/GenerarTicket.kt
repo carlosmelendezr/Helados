@@ -1,12 +1,14 @@
 package com.carleodev.helados.ui.home
 
 import android.graphics.Bitmap
+import android.media.Image
 import androidx.compose.ui.graphics.Color
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -25,6 +29,7 @@ import androidx.compose.material.Colors
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonColors
@@ -44,6 +49,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -52,11 +58,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.carleodev.helados.AppViewModelProvider
 import com.carleodev.helados.HeladosTopAppBar
+import com.carleodev.helados.R
 import com.carleodev.helados.navigation.NavigationDestination
 import com.carleodev.helados.viewmodels.CrearItemViewModel
 import com.carleodev.helados.viewmodels.GenerarTicketViewModel
 import com.carleodev.helados.viewmodels.ItemUIState
 import com.carleodev.helados.viewmodels.TicketUIState
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.painter.Painter
 
 
 object GenerarTicketDestination : NavigationDestination {
@@ -164,8 +173,8 @@ fun GenerarItem(itemUIState: ItemUIState,
                     }
                     Row() {
                         sabores(ticketUIState,onValueChange)
-                        toping(ticketUIState,onValueChange)
-                        lluvia(ticketUIState,onValueChange)
+                        //toping(ticketUIState,onValueChange)
+                        //lluvia(ticketUIState,onValueChange)
 
                     }
                 }
@@ -181,32 +190,76 @@ fun GenerarItem(itemUIState: ItemUIState,
 fun sabores( ticketUIState: TicketUIState,
              onValueChange:(TicketUIState)->Unit) {
 
-
     Column(modifier = Modifier.
         border(BorderStroke(2.dp, SolidColor(Color.Blue)))
         .padding(10.dp)) {
 
-        RadioButton(
-            selected = ticketUIState.sabor == "Ron Pasas",
-            onClick = { onValueChange(ticketUIState.copy(sabor="Ron Pasas")) }
 
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(sabor="Ron Pasas")) },
+            content = {
+                if (ticketUIState.sabor == "Ron Pasas") {
+                    Image(painter =painterResource(R.drawable.selronpasas), contentDescription = null)
+                } else {
+                    Image(painter = painterResource(R.drawable.ronpasas), contentDescription = null)
+                }
+                Text("RON PASAS  ")
+            }
         )
-        Text("Ron Pasas")
 
-        RadioButton(
-            selected = ticketUIState.sabor == "Mantecado",
+        OutlinedButton(
             onClick = { onValueChange(ticketUIState.copy(sabor="Mantecado")) },
+            content = {
+                if (ticketUIState.sabor == "Mantecado") {
+                    Image(painter =painterResource(R.drawable.mantecadosel), contentDescription = null)
+                } else {
+                    Image(painter = painterResource(R.drawable.mantecado), contentDescription = null)
+                }
+                Text("MANTECADO")
 
+            }
         )
-        Text("Mantecado")
 
-        RadioButton(
-            selected = ticketUIState.sabor == "Mixto",
+        OutlinedButton(
             onClick = { onValueChange(ticketUIState.copy(sabor="Mixto")) },
+            content = {
+                if (ticketUIState.sabor == "Mixto") {
+                    Image(painter =painterResource(R.drawable.selmixto), contentDescription = null)
+                } else {
+                    Image(painter = painterResource(R.drawable.mixto), contentDescription = null)
+                }
+                Text("MIXTO         ")
 
-            )
-        Text("Mixto")
+            }
+        )
+
+
+
+
+
+
     }
+}
+
+@Composable
+fun opcionesBoton(selectedOption:String,
+                  opcion:String,
+                  imagen: Painter, selimagen:Painter,
+                  onValueChange:()->Unit ) {
+
+    OutlinedButton(
+        onClick = { onValueChange},
+        content = {
+            if (selectedOption == opcion) {
+               Image(painter = selimagen, contentDescription = null)
+            } else {
+                Image(painter = imagen, contentDescription = null)
+            }
+
+        }
+    )
+
+
 }
 
 @Composable
