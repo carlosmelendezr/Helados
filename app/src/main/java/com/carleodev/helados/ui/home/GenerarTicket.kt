@@ -241,50 +241,61 @@ fun sabores( ticketUIState: TicketUIState,
     }
 }
 
-@Composable
-fun opcionesBoton(selectedOption:String,
-                  opcion:String,
-                  imagen: Painter, selimagen:Painter,
-                  onValueChange:()->Unit ) {
 
-    OutlinedButton(
-        onClick = { onValueChange},
-        content = {
-            if (selectedOption == opcion) {
-               Image(painter = selimagen, contentDescription = null)
-            } else {
-                Image(painter = imagen, contentDescription = null)
-            }
-
-        }
-    )
-
-
-}
 
 @Composable
 fun toping(ticketUIState: TicketUIState,
            onValueChange:(TicketUIState)->Unit) {
-    val selectedOption = remember { mutableStateOf("Chocolate") }
 
-    Column(modifier = Modifier.border(BorderStroke(2.dp, SolidColor(Color.Red))).padding(10.dp)) {
+    Column(modifier = Modifier.
+    border(BorderStroke(2.dp, SolidColor(Color.Blue)))
+        .padding(10.dp)) {
 
-        RadioButton(
-            selected = ticketUIState.toping == "Chocolate",
-            onClick = { onValueChange(ticketUIState.copy(toping="Chocolate")) },
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(sabor="Fresa")) },
+            content = {
+                if (ticketUIState.sabor == "Fresa") {
+                    Image(painter =painterResource(R.drawable), contentDescription = null)
+                } else {
+                    Image(painter = painterResource(R.drawable.ronpasas), contentDescription = null)
+                }
+                Text("RON PASAS  ")
+            }
+        )
 
-            )
-        Text("Chocolate")
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(sabor="Mantecado")) },
+            content = {
+                if (ticketUIState.sabor == "Mantecado") {
+                    Image(painter =painterResource(R.drawable.mantecadosel), contentDescription = null)
+                } else {
+                    Image(painter = painterResource(R.drawable.mantecado), contentDescription = null)
+                }
+                Text("MANTECADO")
 
-        RadioButton(
-            selected = ticketUIState.toping== "Fresa",
-            onClick = { onValueChange(ticketUIState.copy(toping="Fresa")) },
+            }
+        )
 
-            )
-        Text("Fresa")
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(sabor="Mixto")) },
+            content = {
+                if (ticketUIState.sabor == "Mixto") {
+                    Image(painter =painterResource(R.drawable.selmixto), contentDescription = null)
+                } else {
+                    Image(painter = painterResource(R.drawable.mixto), contentDescription = null)
+                }
+                Text("MIXTO         ")
+
+            }
+        )
+
+
+
+
 
 
     }
+
 }
 
 @Composable
