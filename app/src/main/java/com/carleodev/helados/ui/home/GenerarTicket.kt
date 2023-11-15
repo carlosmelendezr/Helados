@@ -172,8 +172,8 @@ fun GenerarItem(itemUIState: ItemUIState,
 
                     }
                     Row() {
-                        sabores(ticketUIState,onValueChange)
-                        //toping(ticketUIState,onValueChange)
+                        //sabores(ticketUIState,onValueChange)
+                        toping(ticketUIState,onValueChange)
                         //lluvia(ticketUIState,onValueChange)
 
                     }
@@ -255,36 +255,36 @@ fun toping(ticketUIState: TicketUIState,
             onClick = { onValueChange(ticketUIState.copy(sabor="Fresa")) },
             content = {
                 if (ticketUIState.sabor == "Fresa") {
-                    Image(painter =painterResource(R.drawable), contentDescription = null)
+                    Image(painter =painterResource(R.drawable.siropefresasel), contentDescription = null)
                 } else {
-                    Image(painter = painterResource(R.drawable.ronpasas), contentDescription = null)
+                    Image(painter = painterResource(R.drawable.siropefresa), contentDescription = null)
                 }
-                Text("RON PASAS  ")
+                Text("FRESA   ")
             }
         )
 
         OutlinedButton(
-            onClick = { onValueChange(ticketUIState.copy(sabor="Mantecado")) },
+            onClick = { onValueChange(ticketUIState.copy(sabor="Chocolate")) },
             content = {
-                if (ticketUIState.sabor == "Mantecado") {
-                    Image(painter =painterResource(R.drawable.mantecadosel), contentDescription = null)
+                if (ticketUIState.sabor == "Chocolate") {
+                    Image(painter =painterResource(R.drawable.siropechocolatesel), contentDescription = null)
                 } else {
-                    Image(painter = painterResource(R.drawable.mantecado), contentDescription = null)
+                    Image(painter = painterResource(R.drawable.siropechocolate), contentDescription = null)
                 }
-                Text("MANTECADO")
+                Text("CHOCOLATE")
 
             }
         )
 
         OutlinedButton(
-            onClick = { onValueChange(ticketUIState.copy(sabor="Mixto")) },
+            onClick = { onValueChange(ticketUIState.copy(sabor="Leche")) },
             content = {
-                if (ticketUIState.sabor == "Mixto") {
-                    Image(painter =painterResource(R.drawable.selmixto), contentDescription = null)
+                if (ticketUIState.sabor == "Leche") {
+                    Image(painter =painterResource(R.drawable.siropelechesel), contentDescription = null)
                 } else {
-                    Image(painter = painterResource(R.drawable.mixto), contentDescription = null)
+                    Image(painter = painterResource(R.drawable.siropeleche), contentDescription = null)
                 }
-                Text("MIXTO         ")
+                Text("LECHE CONDENSADA")
 
             }
         )
