@@ -160,24 +160,36 @@ fun GenerarItem(itemUIState: ItemUIState,
                         fontSize = 20.sp
 
                         )
-
                         Text(
                             "${itemUIState.preciobs} BS",
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
-
                         )
-
-
-
                     }
-                    Row() {
-                        //sabores(ticketUIState,onValueChange)
-                        toping(ticketUIState,onValueChange)
-                        //lluvia(ticketUIState,onValueChange)
 
-                    }
                 }
+
+            }
+            Column() {
+                Text(
+                    "SABORES",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp
+                )
+                sabores(ticketUIState,onValueChange)
+                Text(
+                    "TOPING",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp
+                )
+                toping(ticketUIState,onValueChange)
+                Text(
+                    "LLUVIA",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp
+                )
+                //lluvia(ticketUIState,onValueChange)
+
             }
 
 
@@ -190,20 +202,36 @@ fun GenerarItem(itemUIState: ItemUIState,
 fun sabores( ticketUIState: TicketUIState,
              onValueChange:(TicketUIState)->Unit) {
 
-    Column(modifier = Modifier.
-        border(BorderStroke(2.dp, SolidColor(Color.Blue)))
-        .padding(10.dp)) {
+    val borderWidth = 2.dp
+    val modifierSelected = Modifier
+        .size(80.dp)
+        .border(
+            BorderStroke(borderWidth, Color.Red),
+            CircleShape
+        )
+        .padding(borderWidth)
+        .clip(CircleShape)
+
+    val modifierUnSelected = Modifier
+        .size(100.dp)
 
 
+
+    Row() {
         OutlinedButton(
             onClick = { onValueChange(ticketUIState.copy(sabor="Ron Pasas")) },
             content = {
                 if (ticketUIState.sabor == "Ron Pasas") {
-                    Image(painter =painterResource(R.drawable.selronpasas), contentDescription = null)
+                    Column() {
+                        Text("RON PASAS")
+                        Image(painter =painterResource(R.drawable.ronpasas),
+                            contentDescription = null, modifier = modifierSelected)
+                    }
+
                 } else {
-                    Image(painter = painterResource(R.drawable.ronpasas), contentDescription = null)
+                    Image(painter = painterResource(R.drawable.ronpasas),
+                        contentDescription = null, modifier = modifierUnSelected)
                 }
-                Text("RON PASAS  ")
             }
         )
 
@@ -211,11 +239,19 @@ fun sabores( ticketUIState: TicketUIState,
             onClick = { onValueChange(ticketUIState.copy(sabor="Mantecado")) },
             content = {
                 if (ticketUIState.sabor == "Mantecado") {
-                    Image(painter =painterResource(R.drawable.mantecadosel), contentDescription = null)
+                    Column() {
+                        Text("MANTECADO")
+                        Image(
+                            painter = painterResource(R.drawable.mantecado),
+                            contentDescription = null, modifier = modifierSelected
+                        )
+
+                    }
                 } else {
-                    Image(painter = painterResource(R.drawable.mantecado), contentDescription = null)
+                    Image(painter = painterResource(R.drawable.mantecado),
+                        contentDescription = null, modifier = modifierUnSelected)
                 }
-                Text("MANTECADO")
+
 
             }
         )
@@ -224,26 +260,111 @@ fun sabores( ticketUIState: TicketUIState,
             onClick = { onValueChange(ticketUIState.copy(sabor="Mixto")) },
             content = {
                 if (ticketUIState.sabor == "Mixto") {
-                    Image(painter =painterResource(R.drawable.selmixto), contentDescription = null)
+                    Column() {
+                        Text("MIXTO")
+                        Image(
+                            painter = painterResource(R.drawable.mixto),
+                            contentDescription = null, modifier = modifierSelected
+                        )
+
+                    }
                 } else {
-                    Image(painter = painterResource(R.drawable.mixto), contentDescription = null)
+                    Image(painter = painterResource(R.drawable.mixto),
+                        contentDescription = null, modifier = modifierUnSelected)
                 }
-                Text("MIXTO         ")
+
+
+            }
+        )
+    }
+}
+
+@Composable
+fun toping( ticketUIState: TicketUIState,
+             onValueChange:(TicketUIState)->Unit) {
+
+    val borderWidth = 2.dp
+    val modifierSelected = Modifier
+        .size(80.dp)
+        .border(
+            BorderStroke(borderWidth, Color.Red),
+            CircleShape
+        )
+        .padding(borderWidth)
+        .clip(CircleShape)
+
+    val modifierUnSelected = Modifier
+        .size(100.dp)
+
+
+
+    Row() {
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(toping="Fresa")) },
+            content = {
+                if (ticketUIState.toping == "Fresa") {
+                    Column() {
+                        Text("FRESA")
+                        Image(
+                            painter = painterResource(R.drawable.siropefresa),
+                            contentDescription = null, modifier = modifierSelected
+                        )
+
+                    }
+                } else {
+                    Image(painter = painterResource(R.drawable.siropefresa),
+                        contentDescription = null, modifier = modifierUnSelected)
+                }
+            }
+        )
+
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(toping="Chocolate")) },
+            content = {
+                if (ticketUIState.toping == "Chocolate") {
+                    Column() {
+                        Text("CHOCOLATE")
+                        Image(
+                            painter = painterResource(R.drawable.siropechocolate),
+                            contentDescription = null, modifier = modifierSelected
+                        )
+
+                    }
+                } else {
+                    Image(painter = painterResource(R.drawable.siropechocolate),
+                        contentDescription = null, modifier = modifierUnSelected)
+                }
+
 
             }
         )
 
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(toping="Leche Condesada")) },
+            content = {
+                if (ticketUIState.toping == "Leche Condesada") {
+                    Column() {
+                        Text("LECHE CONDENSADA")
+                        Image(
+                            painter = painterResource(R.drawable.siropeleche),
+                            contentDescription = null, modifier = modifierSelected
+                        )
 
+                    }
+                } else {
+                    Image(painter = painterResource(R.drawable.siropeleche),
+                        contentDescription = null, modifier = modifierUnSelected)
+                }
 
-
-
-
+            }
+        )
     }
 }
 
 
 
-@Composable
+
+/*@Composable
 fun toping(ticketUIState: TicketUIState,
            onValueChange:(TicketUIState)->Unit) {
 
@@ -296,14 +417,16 @@ fun toping(ticketUIState: TicketUIState,
 
     }
 
-}
+}*/
 
 @Composable
 fun lluvia(ticketUIState: TicketUIState,
            onValueChange:(TicketUIState)->Unit) {
     val selectedOption = remember { mutableStateOf("Chocolate") }
 
-    Column(modifier = Modifier.border(BorderStroke(2.dp, SolidColor(Color.Black))).padding(10.dp)) {
+    Column(modifier = Modifier
+        .border(BorderStroke(2.dp, SolidColor(Color.Black)))
+        .padding(10.dp)) {
 
         RadioButton(
             selected = ticketUIState.lluvia== "Chocolate",
