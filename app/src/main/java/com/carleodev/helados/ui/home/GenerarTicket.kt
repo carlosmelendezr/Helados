@@ -264,13 +264,20 @@ fun sabores( ticketUIState: TicketUIState,
 @Composable
 fun toping( ticketUIState: TicketUIState,
              onValueChange:(TicketUIState)->Unit) {
+
     var fresaChecked by remember { mutableStateOf(false) }
     var chocoChecked by remember { mutableStateOf(false) }
     var lecheChecked by remember { mutableStateOf(false) }
 
+
     var toping:MutableSet<String> by remember { mutableStateOf(mutableSetOf()) }
 
     val borderWidth = 2.dp
+
+    val colModfier = Modifier.padding(5.dp).border(
+        BorderStroke(borderWidth,color=Color.White)
+    )
+
     val modifierSelected = Modifier
         .size(80.dp)
         .border(
@@ -283,10 +290,9 @@ fun toping( ticketUIState: TicketUIState,
     val modifierUnSelected = Modifier
         .size(80.dp)
 
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(50.dp)
+    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)
            ) {
-        Column() {
+        Column(modifier=colModfier) {
             Switch(
                 checked = fresaChecked,
                 onCheckedChange = {
@@ -311,8 +317,8 @@ fun toping( ticketUIState: TicketUIState,
             }
 
         }
-
-        Column() {
+        Spacer(modifier = Modifier.size(30.dp))
+        Column(modifier=colModfier) {
             Switch(
                 checked = chocoChecked,
                 onCheckedChange = {
@@ -337,7 +343,8 @@ fun toping( ticketUIState: TicketUIState,
             }
 
         }
-        Column() {
+        Spacer(modifier = Modifier.size(30.dp))
+        Column(modifier=colModfier) {
             Switch(
                 checked = lecheChecked,
                 onCheckedChange = {
