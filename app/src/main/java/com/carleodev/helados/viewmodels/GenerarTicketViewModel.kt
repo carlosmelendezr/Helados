@@ -2,6 +2,7 @@ package com.carleodev.helados.viewmodels
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -48,6 +49,7 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
 
     fun updateUiState(pticketUIState:TicketUIState) {
         ticketUIState = pticketUIState
+        Log.d("TOPING",ticketUIState.toping.toString() )
     }
 
     fun guardarTicket() {
@@ -57,8 +59,8 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
             fecha = hoy,
             iditem = itemId, hora = 0,
             cant=1, sabor = ticketUIState.sabor,
-            toping = ticketUIState.toping,
-            lluvia = ticketUIState.lluvia
+            toping = ticketUIState.toping.toString(),
+            lluvia = ticketUIState.lluvia.toString()
 
         )
 
@@ -77,8 +79,7 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
 
 data class TicketUIState(
     val sabor:String="",
-    val toping:String="",
-    val lluvia:String=""
+    val toping:Set<String> = setOf(),
+    val lluvia:String= ""
 )
-
 

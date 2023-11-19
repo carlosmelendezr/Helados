@@ -11,30 +11,12 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Colors
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonColors
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Save
@@ -65,7 +47,7 @@ import com.carleodev.helados.viewmodels.GenerarTicketViewModel
 import com.carleodev.helados.viewmodels.ItemUIState
 import com.carleodev.helados.viewmodels.TicketUIState
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.painter.Painter
+
 
 
 object GenerarTicketDestination : NavigationDestination {
@@ -282,6 +264,11 @@ fun sabores( ticketUIState: TicketUIState,
 @Composable
 fun toping( ticketUIState: TicketUIState,
              onValueChange:(TicketUIState)->Unit) {
+    var fresaChecked by remember { mutableStateOf(false) }
+    var chocoChecked by remember { mutableStateOf(false) }
+    var lecheChecked by remember { mutableStateOf(false) }
+
+    var toping:MutableSet<String> by remember { mutableStateOf(mutableSetOf()) }
 
     val borderWidth = 2.dp
     val modifierSelected = Modifier
@@ -294,72 +281,91 @@ fun toping( ticketUIState: TicketUIState,
         .clip(CircleShape)
 
     val modifierUnSelected = Modifier
-        .size(100.dp)
+        .size(80.dp)
 
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(50.dp)
+           ) {
+        Column() {
+            Switch(
+                checked = fresaChecked,
+                onCheckedChange = {
+                    fresaChecked = it
 
-
-    Row() {
-        OutlinedButton(
-            onClick = { onValueChange(ticketUIState.copy(toping="Fresa")) },
-            content = {
-                if (ticketUIState.toping == "Fresa") {
-                    Column() {
-                        Text("FRESA")
-                        Image(
-                            painter = painterResource(R.drawable.siropefresa),
-                            contentDescription = null, modifier = modifierSelected
-                        )
-
-                    }
-                } else {
-                    Image(painter = painterResource(R.drawable.siropefresa),
-                        contentDescription = null, modifier = modifierUnSelected)
-                }
+                },
+            )
+            if (fresaChecked) {
+                toping.add("Fresa")
+                Image(
+                    painter = painterResource(R.drawable.siropefresa),
+                    contentDescription = null, modifier = modifierSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
+            } else {
+                toping.remove("Fresa")
+                Image(
+                    painter = painterResource(R.drawable.siropefresa),
+                    contentDescription = null, modifier = modifierUnSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
             }
-        )
 
-        OutlinedButton(
-            onClick = { onValueChange(ticketUIState.copy(toping="Chocolate")) },
-            content = {
-                if (ticketUIState.toping == "Chocolate") {
-                    Column() {
-                        Text("CHOCOLATE")
-                        Image(
-                            painter = painterResource(R.drawable.siropechocolate),
-                            contentDescription = null, modifier = modifierSelected
-                        )
+        }
 
-                    }
-                } else {
-                    Image(painter = painterResource(R.drawable.siropechocolate),
-                        contentDescription = null, modifier = modifierUnSelected)
-                }
+        Column() {
+            Switch(
+                checked = chocoChecked,
+                onCheckedChange = {
+                    chocoChecked = it
 
-
+                },
+            )
+            if (chocoChecked) {
+                toping.add("Chocolate")
+                Image(
+                    painter = painterResource(R.drawable.siropechocolate),
+                    contentDescription = null, modifier = modifierSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
+            } else {
+                toping.remove("Chocolate")
+                Image(
+                    painter = painterResource(R.drawable.siropechocolate),
+                    contentDescription = null, modifier = modifierUnSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
             }
-        )
 
-        OutlinedButton(
-            onClick = { onValueChange(ticketUIState.copy(toping="Leche Condesada")) },
-            content = {
-                if (ticketUIState.toping == "Leche Condesada") {
-                    Column() {
-                        Text("LECHE CONDENSADA")
-                        Image(
-                            painter = painterResource(R.drawable.siropeleche),
-                            contentDescription = null, modifier = modifierSelected
-                        )
+        }
+        Column() {
+            Switch(
+                checked = lecheChecked,
+                onCheckedChange = {
+                    lecheChecked = it
 
-                    }
-                } else {
-                    Image(painter = painterResource(R.drawable.siropeleche),
-                        contentDescription = null, modifier = modifierUnSelected)
-                }
-
+                },
+            )
+            if (lecheChecked) {
+                toping.add("Leche Condensada")
+                Image(
+                    painter = painterResource(R.drawable.siropeleche),
+                    contentDescription = null, modifier = modifierSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
+            } else {
+                toping.remove("Leche Condensada")
+                Image(
+                    painter = painterResource(R.drawable.siropeleche),
+                    contentDescription = null, modifier = modifierUnSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
             }
-        )
+
+        }
     }
-}
+
+
+    }
 
 
 
@@ -429,32 +435,32 @@ fun lluvia(ticketUIState: TicketUIState,
         .padding(10.dp)) {
 
         RadioButton(
-            selected = ticketUIState.lluvia== "Chocolate",
-            onClick = { onValueChange(ticketUIState.copy(lluvia="Chocolate"))  },
+            selected = ticketUIState.lluvia == "Chocolate",
+            onClick = { onValueChange(ticketUIState.copy(lluvia = "Chocolate")) },
 
             )
         Text("Chocolate")
 
         RadioButton(
             selected = ticketUIState.lluvia == "Colores",
-            onClick = { onValueChange(ticketUIState.copy(lluvia="Colores"))  },
+            onClick = { onValueChange(ticketUIState.copy(lluvia = "Colores")) },
 
             )
         Text("Colores")
 
         RadioButton(
             selected = ticketUIState.lluvia == "Mani",
-            onClick = { onValueChange(ticketUIState.copy(lluvia="Mani"))  },
-            )
+            onClick = { onValueChange(ticketUIState.copy(lluvia = "Mani")) },
+        )
         Text("Mani")
 
         RadioButton(
             selected = ticketUIState.lluvia == "Oreo",
-            onClick = { onValueChange(ticketUIState.copy(lluvia="Oreo"))  },
+            onClick = { onValueChange(ticketUIState.copy(lluvia = "Oreo")) },
         )
         Text("Oreo")
 
 
-
     }
+
 }
