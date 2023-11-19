@@ -19,6 +19,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Print
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -80,7 +81,7 @@ fun GenerarTicketScreen(
             )
             {
                 Icon(
-                    imageVector = Icons.Default.Save,
+                    imageVector = Icons.Default.Print,
                     contentDescription = "Imp",
                     tint = MaterialTheme.colors.onPrimary
                 )
@@ -106,13 +107,7 @@ fun GenerarItem(itemUIState: ItemUIState,
                 modifier: Modifier = Modifier
 ) {
 
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    val context = LocalContext.current
-
-    val myBitmap = itemUIState.imagen
-
-
+   val myBitmap = itemUIState.imagen
 
     Card(
 
@@ -136,10 +131,10 @@ fun GenerarItem(itemUIState: ItemUIState,
 
                         )
                     Row() {
-                     Text(
-                        "${itemUIState.price}$ ---> ",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
+                        Text(
+                            "${itemUIState.price}$ ---> ",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
 
                         )
                         Text(
@@ -148,29 +143,30 @@ fun GenerarItem(itemUIState: ItemUIState,
                             fontSize = 20.sp
                         )
                     }
-
+                   
                 }
 
             }
+            val tamanoTexto = 20.sp
             Column() {
                 Text(
                     "SABORES",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp
+                    fontSize = tamanoTexto
                 )
                 sabores(ticketUIState,onValueChange)
                 Text(
                     "TOPING",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp
+                    fontSize = tamanoTexto
                 )
                 toping(ticketUIState,onValueChange)
                 Text(
                     "LLUVIA",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp
+                    fontSize = tamanoTexto
                 )
-                //lluvia(ticketUIState,onValueChange)
+                lluvia(ticketUIState,onValueChange)
 
             }
 
@@ -382,13 +378,14 @@ fun lluvia( ticketUIState: TicketUIState,
 
     var maniChecked by remember { mutableStateOf(false) }
     var chocoChecked by remember { mutableStateOf(false) }
-    var ColoresChecked by remember { mutableStateOf(false) }
+    var coloresChecked by remember { mutableStateOf(false) }
     var oreoChecked by remember { mutableStateOf(false) }
 
 
     var lluvia:MutableSet<String> by remember { mutableStateOf(mutableSetOf()) }
 
     val borderWidth = 2.dp
+    val spacio = Modifier.size(10.dp)
 
     val colModfier = Modifier.padding(5.dp).border(
         BorderStroke(borderWidth,color=Color.White)
@@ -410,30 +407,30 @@ fun lluvia( ticketUIState: TicketUIState,
     ) {
         Column(modifier=colModfier) {
             Switch(
-                checked = fresaChecked,
+                checked = maniChecked,
                 onCheckedChange = {
-                    fresaChecked = it
+                    maniChecked = it
 
                 },
             )
-            if (fresaChecked) {
-                toping.add("Fresa")
+            if (maniChecked) {
+                lluvia.add("Mani")
                 Image(
-                    painter = painterResource(R.drawable.siropefresa),
+                    painter = painterResource(R.drawable.lluviamani),
                     contentDescription = null, modifier = modifierSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                onValueChange(ticketUIState.copy(lluvia = lluvia))
             } else {
-                toping.remove("Fresa")
+                lluvia.remove("Mani")
                 Image(
-                    painter = painterResource(R.drawable.siropefresa),
+                    painter = painterResource(R.drawable.lluviamani),
                     contentDescription = null, modifier = modifierUnSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                onValueChange(ticketUIState.copy(lluvia = lluvia))
             }
 
         }
-        Spacer(modifier = Modifier.size(30.dp))
+        Spacer(modifier = spacio)
         Column(modifier=colModfier) {
             Switch(
                 checked = chocoChecked,
@@ -443,45 +440,69 @@ fun lluvia( ticketUIState: TicketUIState,
                 },
             )
             if (chocoChecked) {
-                toping.add("Chocolate")
+                lluvia.add("Chocolate")
                 Image(
-                    painter = painterResource(R.drawable.siropechocolate),
+                    painter = painterResource(R.drawable.lluviachoco),
                     contentDescription = null, modifier = modifierSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                onValueChange(ticketUIState.copy(lluvia=lluvia))
             } else {
-                toping.remove("Chocolate")
+                lluvia.remove("Chocolate")
                 Image(
-                    painter = painterResource(R.drawable.siropechocolate),
+                    painter = painterResource(R.drawable.lluviachoco),
                     contentDescription = null, modifier = modifierUnSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                onValueChange(ticketUIState.copy(lluvia=lluvia))
             }
 
         }
-        Spacer(modifier = Modifier.size(30.dp))
+        Spacer(modifier = spacio)
         Column(modifier=colModfier) {
             Switch(
-                checked = lecheChecked,
+                checked = coloresChecked,
                 onCheckedChange = {
-                    lecheChecked = it
-
+                    coloresChecked = it
                 },
             )
-            if (lecheChecked) {
-                toping.add("Leche Condensada")
+            if (coloresChecked) {
+                lluvia.add("Colores")
                 Image(
-                    painter = painterResource(R.drawable.siropeleche),
+                    painter = painterResource(R.drawable.lluviacolores),
                     contentDescription = null, modifier = modifierSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                onValueChange(ticketUIState.copy(lluvia=lluvia))
             } else {
-                toping.remove("Leche Condensada")
+                lluvia.remove("Colores")
                 Image(
-                    painter = painterResource(R.drawable.siropeleche),
+                    painter = painterResource(R.drawable.lluviacolores),
                     contentDescription = null, modifier = modifierUnSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                onValueChange(ticketUIState.copy(lluvia=lluvia))
+            }
+
+        }
+        Spacer(modifier = spacio)
+        Column(modifier=colModfier) {
+            Switch(
+                checked = oreoChecked,
+                onCheckedChange = {
+                    oreoChecked= it
+                },
+            )
+            if (oreoChecked) {
+                lluvia.add("Oreo")
+                Image(
+                    painter = painterResource(R.drawable.lluviaoreo),
+                    contentDescription = null, modifier = modifierSelected
+                )
+                onValueChange(ticketUIState.copy(lluvia=lluvia))
+            } else {
+                lluvia.remove("Oreo")
+                Image(
+                    painter = painterResource(R.drawable.lluviaoreo),
+                    contentDescription = null, modifier = modifierUnSelected
+                )
+                onValueChange(ticketUIState.copy(lluvia=lluvia))
             }
 
         }
