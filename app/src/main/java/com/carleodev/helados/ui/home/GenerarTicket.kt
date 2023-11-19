@@ -376,64 +376,121 @@ fun toping( ticketUIState: TicketUIState,
 
 
 
+@Composable
+fun lluvia( ticketUIState: TicketUIState,
+            onValueChange:(TicketUIState)->Unit) {
 
-/*@Composable
-fun toping(ticketUIState: TicketUIState,
-           onValueChange:(TicketUIState)->Unit) {
+    var maniChecked by remember { mutableStateOf(false) }
+    var chocoChecked by remember { mutableStateOf(false) }
+    var ColoresChecked by remember { mutableStateOf(false) }
+    var oreoChecked by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.
-    border(BorderStroke(2.dp, SolidColor(Color.Blue)))
-        .padding(10.dp)) {
 
-        OutlinedButton(
-            onClick = { onValueChange(ticketUIState.copy(sabor="Fresa")) },
-            content = {
-                if (ticketUIState.sabor == "Fresa") {
-                    Image(painter =painterResource(R.drawable.siropefresasel), contentDescription = null)
-                } else {
-                    Image(painter = painterResource(R.drawable.siropefresa), contentDescription = null)
-                }
-                Text("FRESA   ")
-            }
+    var lluvia:MutableSet<String> by remember { mutableStateOf(mutableSetOf()) }
+
+    val borderWidth = 2.dp
+
+    val colModfier = Modifier.padding(5.dp).border(
+        BorderStroke(borderWidth,color=Color.White)
+    )
+
+    val modifierSelected = Modifier
+        .size(80.dp)
+        .border(
+            BorderStroke(borderWidth, Color.Red),
+            CircleShape
         )
+        .padding(borderWidth)
+        .clip(CircleShape)
 
-        OutlinedButton(
-            onClick = { onValueChange(ticketUIState.copy(sabor="Chocolate")) },
-            content = {
-                if (ticketUIState.sabor == "Chocolate") {
-                    Image(painter =painterResource(R.drawable.siropechocolatesel), contentDescription = null)
-                } else {
-                    Image(painter = painterResource(R.drawable.siropechocolate), contentDescription = null)
-                }
-                Text("CHOCOLATE")
+    val modifierUnSelected = Modifier
+        .size(80.dp)
 
+    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Column(modifier=colModfier) {
+            Switch(
+                checked = fresaChecked,
+                onCheckedChange = {
+                    fresaChecked = it
+
+                },
+            )
+            if (fresaChecked) {
+                toping.add("Fresa")
+                Image(
+                    painter = painterResource(R.drawable.siropefresa),
+                    contentDescription = null, modifier = modifierSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
+            } else {
+                toping.remove("Fresa")
+                Image(
+                    painter = painterResource(R.drawable.siropefresa),
+                    contentDescription = null, modifier = modifierUnSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
             }
-        )
 
-        OutlinedButton(
-            onClick = { onValueChange(ticketUIState.copy(sabor="Leche")) },
-            content = {
-                if (ticketUIState.sabor == "Leche") {
-                    Image(painter =painterResource(R.drawable.siropelechesel), contentDescription = null)
-                } else {
-                    Image(painter = painterResource(R.drawable.siropeleche), contentDescription = null)
-                }
-                Text("LECHE CONDENSADA")
+        }
+        Spacer(modifier = Modifier.size(30.dp))
+        Column(modifier=colModfier) {
+            Switch(
+                checked = chocoChecked,
+                onCheckedChange = {
+                    chocoChecked = it
 
+                },
+            )
+            if (chocoChecked) {
+                toping.add("Chocolate")
+                Image(
+                    painter = painterResource(R.drawable.siropechocolate),
+                    contentDescription = null, modifier = modifierSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
+            } else {
+                toping.remove("Chocolate")
+                Image(
+                    painter = painterResource(R.drawable.siropechocolate),
+                    contentDescription = null, modifier = modifierUnSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
             }
-        )
 
+        }
+        Spacer(modifier = Modifier.size(30.dp))
+        Column(modifier=colModfier) {
+            Switch(
+                checked = lecheChecked,
+                onCheckedChange = {
+                    lecheChecked = it
 
+                },
+            )
+            if (lecheChecked) {
+                toping.add("Leche Condensada")
+                Image(
+                    painter = painterResource(R.drawable.siropeleche),
+                    contentDescription = null, modifier = modifierSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
+            } else {
+                toping.remove("Leche Condensada")
+                Image(
+                    painter = painterResource(R.drawable.siropeleche),
+                    contentDescription = null, modifier = modifierUnSelected
+                )
+                onValueChange(ticketUIState.copy(toping = toping))
+            }
 
-
-
-
+        }
     }
 
-}*/
 
-@Composable
-fun lluvia(ticketUIState: TicketUIState,
+}
+
+/*fun lluviaOLD(ticketUIState: TicketUIState,
            onValueChange:(TicketUIState)->Unit) {
     val selectedOption = remember { mutableStateOf("Chocolate") }
 
@@ -470,4 +527,4 @@ fun lluvia(ticketUIState: TicketUIState,
 
     }
 
-}
+}*/

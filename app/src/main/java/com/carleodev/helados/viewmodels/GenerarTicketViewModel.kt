@@ -80,6 +80,6 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
 data class TicketUIState(
     val sabor:String="",
     val toping:Set<String> = setOf(),
-    val lluvia:String= ""
+    val lluvia:Set<String> = setOf()
 )
 
