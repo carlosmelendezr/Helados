@@ -208,7 +208,7 @@ fun sabores( ticketUIState: TicketUIState,
 
     val borderWidth = 2.dp
     val modifierSelected = Modifier
-        .size(80.dp)
+        .size(100.dp)
         .border(
             BorderStroke(borderWidth, Color.Red),
             CircleShape
