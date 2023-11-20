@@ -18,5 +18,6 @@ data class Ticket(
     val sabor:String,
     val toping:String,
     val lluvia:String,
+    val pago:String,
     val anulado: Boolean = false,
 )

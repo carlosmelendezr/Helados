@@ -76,7 +76,8 @@ fun GenerarTicketScreen(
             )
         }, floatingActionButton = {
             FloatingActionButton(
-                onClick = { viewModel.guardarTicket().also { onNavigateUp()  } },
+                onClick = { viewModel.guardarTicket().
+                also { if (viewModel.ticketUIState.pago.isNotBlank()) onNavigateUp()  } },
                 modifier = Modifier.navigationBarsPadding()
             )
             {
@@ -142,32 +143,57 @@ fun GenerarItem(itemUIState: ItemUIState,
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
+
+                    }
+                    if (ticketUIState.formapago) {
+                        Column {
+                            Text(
+                                "SABOR -> ${ticketUIState.sabor}",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
+                            Text(
+                                "TOPING -> ${ticketUIState.toping}",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
+                            Text(
+                                "LLUVIA -> ${ticketUIState.lluvia}",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
+
+                        }
                     }
                    
                 }
 
             }
             val tamanoTexto = 20.sp
-            Column() {
-                Text(
-                    "SABORES",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = tamanoTexto
-                )
-                sabores(ticketUIState,onValueChange)
-                Text(
-                    "TOPING",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = tamanoTexto
-                )
-                toping(ticketUIState,onValueChange)
-                Text(
-                    "LLUVIA",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = tamanoTexto
-                )
-                lluvia(ticketUIState,onValueChange)
+            if (!ticketUIState.formapago) {
+                Column() {
+                    Text(
+                        "SABORES -> ${ticketUIState.sabor}",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = tamanoTexto
+                    )
+                    sabores(ticketUIState, onValueChange)
+                    Text(
+                        "TOPING ",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = tamanoTexto
+                    )
+                    toping(ticketUIState, onValueChange)
+                    Text(
+                        "LLUVIA ",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = tamanoTexto
+                    )
+                    lluvia(ticketUIState, onValueChange)
 
+                }
+            } else {
+                pagos(ticketUIState = ticketUIState, onValueChange = onValueChange)
             }
 
 
@@ -201,7 +227,6 @@ fun sabores( ticketUIState: TicketUIState,
             content = {
                 if (ticketUIState.sabor == "Ron Pasas") {
                     Column() {
-                        Text("RON PASAS")
                         Image(painter =painterResource(R.drawable.ronpasas),
                             contentDescription = null, modifier = modifierSelected)
                     }
@@ -218,7 +243,6 @@ fun sabores( ticketUIState: TicketUIState,
             content = {
                 if (ticketUIState.sabor == "Mantecado") {
                     Column() {
-                        Text("MANTECADO")
                         Image(
                             painter = painterResource(R.drawable.mantecado),
                             contentDescription = null, modifier = modifierSelected
@@ -239,7 +263,6 @@ fun sabores( ticketUIState: TicketUIState,
             content = {
                 if (ticketUIState.sabor == "Mixto") {
                     Column() {
-                        Text("MIXTO")
                         Image(
                             painter = painterResource(R.drawable.mixto),
                             contentDescription = null, modifier = modifierSelected
@@ -266,13 +289,15 @@ fun toping( ticketUIState: TicketUIState,
     var lecheChecked by remember { mutableStateOf(false) }
 
 
-    var toping:MutableSet<String> by remember { mutableStateOf(mutableSetOf()) }
+    //var toping:MutableSet<String> by remember { mutableStateOf(mutableSetOf()) }
 
     val borderWidth = 2.dp
 
-    val colModfier = Modifier.padding(5.dp).border(
-        BorderStroke(borderWidth,color=Color.White)
-    )
+    val colModfier = Modifier
+        .padding(5.dp)
+        .border(
+            BorderStroke(borderWidth, color = Color.White)
+        )
 
     val modifierSelected = Modifier
         .size(80.dp)
@@ -297,19 +322,17 @@ fun toping( ticketUIState: TicketUIState,
                 },
             )
             if (fresaChecked) {
-                toping.add("Fresa")
                 Image(
                     painter = painterResource(R.drawable.siropefresa),
                     contentDescription = null, modifier = modifierSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                ticketUIState.agregarToping("Fresa")
             } else {
-                toping.remove("Fresa")
                 Image(
                     painter = painterResource(R.drawable.siropefresa),
                     contentDescription = null, modifier = modifierUnSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                ticketUIState.borrarToping("Fresa")
             }
 
         }
@@ -323,19 +346,17 @@ fun toping( ticketUIState: TicketUIState,
                 },
             )
             if (chocoChecked) {
-                toping.add("Chocolate")
                 Image(
                     painter = painterResource(R.drawable.siropechocolate),
                     contentDescription = null, modifier = modifierSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                ticketUIState.agregarToping("Chocolate")
             } else {
-                toping.remove("Chocolate")
                 Image(
                     painter = painterResource(R.drawable.siropechocolate),
                     contentDescription = null, modifier = modifierUnSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                ticketUIState.borrarToping("Chocolate")
             }
 
         }
@@ -349,19 +370,17 @@ fun toping( ticketUIState: TicketUIState,
                 },
             )
             if (lecheChecked) {
-                toping.add("Leche Condensada")
                 Image(
                     painter = painterResource(R.drawable.siropeleche),
                     contentDescription = null, modifier = modifierSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                ticketUIState.agregarToping("Leche Condensada")
             } else {
-                toping.remove("Leche Condensada")
                 Image(
                     painter = painterResource(R.drawable.siropeleche),
                     contentDescription = null, modifier = modifierUnSelected
                 )
-                onValueChange(ticketUIState.copy(toping = toping))
+                ticketUIState.borrarToping("Leche Condensada")
             }
 
         }
@@ -387,9 +406,11 @@ fun lluvia( ticketUIState: TicketUIState,
     val borderWidth = 2.dp
     val spacio = Modifier.size(10.dp)
 
-    val colModfier = Modifier.padding(5.dp).border(
-        BorderStroke(borderWidth,color=Color.White)
-    )
+    val colModfier = Modifier
+        .padding(5.dp)
+        .border(
+            BorderStroke(borderWidth, color = Color.White)
+        )
 
     val modifierSelected = Modifier
         .size(80.dp)
@@ -511,41 +532,98 @@ fun lluvia( ticketUIState: TicketUIState,
 
 }
 
-/*fun lluviaOLD(ticketUIState: TicketUIState,
-           onValueChange:(TicketUIState)->Unit) {
-    val selectedOption = remember { mutableStateOf("Chocolate") }
+@Composable
+fun pagos( ticketUIState: TicketUIState,
+             onValueChange:(TicketUIState)->Unit) {
 
-    Column(modifier = Modifier
-        .border(BorderStroke(2.dp, SolidColor(Color.Black)))
-        .padding(10.dp)) {
-
-        RadioButton(
-            selected = ticketUIState.lluvia == "Chocolate",
-            onClick = { onValueChange(ticketUIState.copy(lluvia = "Chocolate")) },
-
-            )
-        Text("Chocolate")
-
-        RadioButton(
-            selected = ticketUIState.lluvia == "Colores",
-            onClick = { onValueChange(ticketUIState.copy(lluvia = "Colores")) },
-
-            )
-        Text("Colores")
-
-        RadioButton(
-            selected = ticketUIState.lluvia == "Mani",
-            onClick = { onValueChange(ticketUIState.copy(lluvia = "Mani")) },
+    val borderWidth = 2.dp
+    val modifierSelected = Modifier
+        .size(100.dp)
+        .border(
+            BorderStroke(borderWidth, Color.Red),
+            CircleShape
         )
-        Text("Mani")
+        .padding(borderWidth)
+        .clip(CircleShape)
 
-        RadioButton(
-            selected = ticketUIState.lluvia == "Oreo",
-            onClick = { onValueChange(ticketUIState.copy(lluvia = "Oreo")) },
+    val modifierUnSelected = Modifier
+        .size(100.dp)
+
+
+
+    Row() {
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(pago="Efectivo Bs")) },
+            content = {
+                if (ticketUIState.pago == "Efectivo Bs") {
+                    Column() {
+                        Image(painter =painterResource(R.drawable.pagobs),
+                            contentDescription = null, modifier = modifierSelected)
+                    }
+
+                } else {
+                    Image(painter = painterResource(R.drawable.pagobs),
+                        contentDescription = null, modifier = modifierUnSelected)
+                }
+            }
         )
-        Text("Oreo")
+
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(pago="Efectivo Dolar")) },
+            content = {
+                if (ticketUIState.pago == "Efectivo Dolar") {
+                    Column() {
+                          Image(
+                            painter = painterResource(R.drawable.pagodolar),
+                            contentDescription = null, modifier = modifierSelected
+                        )
+                    }
+                } else {
+                    Image(painter = painterResource(R.drawable.pagodolar),
+                        contentDescription = null, modifier = modifierUnSelected)
+                }
+            }
+        )
+
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(pago="Tarjeta")) },
+            content = {
+                if (ticketUIState.pago == "Tarjeta") {
+                    Column() {
+                        Image(
+                            painter = painterResource(R.drawable.tarjeta),
+                            contentDescription = null, modifier = modifierSelected
+                        )
+
+                    }
+                } else {
+                    Image(painter = painterResource(R.drawable.tarjeta),
+                        contentDescription = null, modifier = modifierUnSelected)
+                }
 
 
+            }
+        )
+
+        OutlinedButton(
+            onClick = { onValueChange(ticketUIState.copy(pago="Pago Movil")) },
+            content = {
+                if (ticketUIState.pago == "Pago Movil") {
+                    Column() {
+                        Image(
+                            painter = painterResource(R.drawable.pagomovil),
+                            contentDescription = null, modifier = modifierSelected
+                        )
+
+                    }
+                } else {
+                    Image(painter = painterResource(R.drawable.pagomovil),
+                        contentDescription = null, modifier = modifierUnSelected)
+                }
+
+
+            }
+        )
     }
+}
 
-}*/

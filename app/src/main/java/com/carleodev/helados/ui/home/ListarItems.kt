@@ -192,7 +192,7 @@ fun ListaItemRow(item:Item,
 
         Row(modifier = Modifier
             .combinedClickable (
-                onClick = {habilitarBotones=false},
+                onClick = {onGenerarTicket(item.id)},
                 onLongClick = { habilitarBotones=true}
             )) {
             mostarMiniatura(item.imagen)
@@ -212,12 +212,12 @@ fun ListaItemRow(item:Item,
 
 
                 )
-                Button(onClick = {
+                /*Button(onClick = {
                     onGenerarTicket(item.id)
                 },
                 ) {
                     Text("VENDER")
-                }
+                }*/
 }
         }
             if (habilitarBotones) {

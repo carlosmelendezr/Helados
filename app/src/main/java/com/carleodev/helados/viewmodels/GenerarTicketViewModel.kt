@@ -32,7 +32,7 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
     val hoy = convertDateToInt(Date())
     var itemId: Int = checkNotNull(savedStateHandle[CrearItemDestination.itemIdArg])
     var itemUIState by mutableStateOf(ItemUIState())
-    var ticketUIState by mutableStateOf(TicketUIState())
+    var ticketUIState by mutableStateOf(TicketUIState(toping  = mutableSetOf(),lluvia= setOf()))
 
 
     init {
@@ -50,9 +50,18 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
     fun updateUiState(pticketUIState:TicketUIState) {
         ticketUIState = pticketUIState
         Log.d("TOPING",ticketUIState.toping.toString() )
+        Log.d("TOPING",ticketUIState.lluvia.toString() )
     }
 
     fun guardarTicket() {
+
+        if (ticketUIState.sabor.isBlank()) return
+
+        if (!ticketUIState.formapago) {
+            ticketUIState = ticketUIState.copy(formapago = true)
+            return
+        }
+
         var lastId:Long =0
 
         val ticket = Ticket(
@@ -60,7 +69,8 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
             iditem = itemId, hora = 0,
             cant=1, sabor = ticketUIState.sabor,
             toping = ticketUIState.toping.toString(),
-            lluvia = ticketUIState.lluvia.toString()
+            lluvia = ticketUIState.lluvia.toString(),
+            pago = ticketUIState.pago
 
         )
 
@@ -79,7 +89,16 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
 
 data class TicketUIState(
     val sabor:String="",
-    val toping:Set<String> = setOf(),
-    val lluvia:Set<String> = setOf()
-)
+    val toping:MutableSet<String> ,
+    val lluvia:Set<String> ,
+    val pago:String="",
+    val formapago:Boolean=false,
+) {
+    fun agregarToping(texto:String) {
+        toping.add(texto)
+    }
+    fun borrarToping(texto:String) {
+        toping.remove(texto)
+    }
+}
 

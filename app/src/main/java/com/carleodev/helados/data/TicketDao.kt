@@ -23,7 +23,8 @@ interface TicketDao {
             "ticket.anulado, " +
             "ticket.sabor, " +
             "ticket.toping, " +
-            "ticket.lluvia " +
+            "ticket.lluvia, " +
+            "ticket.pago " +
             "FROM ticket " +
             "LEFT JOIN items ON ticket.iditem=items.id " +
             "WHERE ticket.id = :id " )
