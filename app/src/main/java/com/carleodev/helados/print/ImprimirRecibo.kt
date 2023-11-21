@@ -113,13 +113,6 @@ private fun getSomePrintables(context:Context,
             .setNewLinesAfter(2)
             .build())
 
-    add(
-        TextPrintable.Builder()
-            .setText("------------------------")
-            .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
-            .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
-            .setNewLinesAfter(2)
-            .build())
 
     add(TextPrintable.Builder()
         .setText("${item.descrip}")
@@ -149,23 +142,40 @@ private fun getSomePrintables(context:Context,
         .build())
 
     add(TextPrintable.Builder()
-        .setText("Topping: ${ticket.toping}")
+        .setText("Topping")
         .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
         .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
-        .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
+        .setAlignment(DefaultPrinter.ALIGNMENT_LEFT)
         .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
         .setNewLinesAfter(1)
         .build())
 
     add(TextPrintable.Builder()
-        .setText("LLuvia: ${ticket.lluvia}")
-        .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
+        .setText("${ticket.toping}")
+        .setFontSize(DefaultPrinter.FONT_SIZE_NORMAL)
         .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
-        .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
+        .setAlignment(DefaultPrinter.ALIGNMENT_RIGHT)
         .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
         .setNewLinesAfter(1)
         .build())
 
+    add(TextPrintable.Builder()
+        .setText("LLuvia:")
+        .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
+        .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
+        .setAlignment(DefaultPrinter.ALIGNMENT_LEFT)
+        .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
+        .setNewLinesAfter(1)
+        .build())
+
+    add(TextPrintable.Builder()
+        .setText("${ticket.lluvia}")
+        .setFontSize(DefaultPrinter.FONT_SIZE_NORMAL)
+        .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
+        .setAlignment(DefaultPrinter.ALIGNMENT_RIGHT)
+        .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
+        .setNewLinesAfter(1)
+        .build())
 
 
     add(
@@ -173,8 +183,17 @@ private fun getSomePrintables(context:Context,
             .setText("------------------------")
             .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
             .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
-            .setNewLinesAfter(3)
+            .setNewLinesAfter(1)
             .build())
+
+    add(TextPrintable.Builder()
+        .setText("${ticket.pago}")
+        .setFontSize(DefaultPrinter.FONT_SIZE_NORMAL)
+        .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
+        .setAlignment(DefaultPrinter.ALIGNMENT_RIGHT)
+        .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
+        .setNewLinesAfter(3)
+        .build())
 
 
     /*add(

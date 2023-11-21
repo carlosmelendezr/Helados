@@ -4,6 +4,7 @@ package com.carleodev.helados.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.carleodev.helados.data.Ticket
 import com.carleodev.helados.data.TicketRepository
 import com.carleodev.helados.util.convertDateToInt
 
@@ -32,4 +33,4 @@ class ReporteDiaViewModel(savedStateHandle: SavedStateHandle,
 
 }
 
-data class PagosUiState(val itemList: List<Pagos> = listOf())
+data class PagosUiState(val itemList: List<Ticket> = listOf())
