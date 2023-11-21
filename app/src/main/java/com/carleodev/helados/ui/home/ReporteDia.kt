@@ -1,5 +1,6 @@
 package com.carleodev.helados.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -41,8 +42,13 @@ fun ReporteDiaScreen(
     viewModel: ReporteDiaViewModel = viewModel(factory = AppViewModelProvider.Factory))
 {
     val totalCantidad by viewModel.totalCant.collectAsState(initial = 0)
-    val totalDolar by viewModel.totalDolar.collectAsState(initial = 0.0)
-    val totalBs by viewModel.totalBs.collectAsState(initial = 0.0)
+    //val totalDolar by viewModel.totalDolar.collectAsState(initial = 0.0)
+    //val totalBs by viewModel.totalBs.collectAsState(initial = 0.0)
+    val totalDolarEfectivo by viewModel.totalDolarEfectivo.collectAsState()
+    val totalBsEfectivo by viewModel.totalBsEfectivo.collectAsState()
+    val totalTarjeta by viewModel.totalTarjeta.collectAsState()
+    val totalPagoMovil by viewModel.totalPagoMovil.collectAsState()
+
 
     Scaffold(
         topBar = {
@@ -55,7 +61,10 @@ fun ReporteDiaScreen(
 
     ) { innerPadding ->
         MostarReporte(totalCantidad=totalCantidad,
-            totalDolar=totalDolar, totalBs=totalBs,
+            totalDolarEfectivo=totalDolarEfectivo,
+            totalBsEfectivo=totalBsEfectivo,
+            totalTarjeta=totalTarjeta,
+            totalPagoMovil=totalPagoMovil,
             modifier = modifier.padding(innerPadding))
 
     }
@@ -63,8 +72,10 @@ fun ReporteDiaScreen(
 
 @Composable
 fun MostarReporte(totalCantidad:Int,
-                  totalDolar:Double,
-                  totalBs:Double,
+                  totalDolarEfectivo:Double,
+                  totalBsEfectivo:Double,
+                  totalTarjeta:Double,
+                  totalPagoMovil:Double,
                   modifier: Modifier = Modifier)
 {
     Card() {
@@ -79,7 +90,17 @@ fun MostarReporte(totalCantidad:Int,
                 modifier = Modifier.fillMaxWidth()
             )
             Text(
-                text = "TOTAL CANTIDAD : ${totalCantidad}",
+                text = "TOTAL TICKETS : ${totalCantidad}",
+                style = MaterialTheme.typography.h6,
+                fontSize = fontSize,
+                textAlign = TextAlign.Left,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+
+
+            Text(
+                text = "PAGOS BOLIVARES EFECTIVO : ${totalBsEfectivo}",
                 style = MaterialTheme.typography.h6,
                 fontSize = fontSize,
                 textAlign = TextAlign.Left,
@@ -87,7 +108,7 @@ fun MostarReporte(totalCantidad:Int,
             )
 
             Text(
-                text = "TOTAL DIA DOLAR : ${totalDolar}",
+                text = "PAGOS EFECTIVO DOLAR : ${totalDolarEfectivo}$",
                 style = MaterialTheme.typography.h6,
                 fontSize = fontSize,
                 textAlign = TextAlign.Left,
@@ -95,54 +116,27 @@ fun MostarReporte(totalCantidad:Int,
             )
 
             Text(
-                text = "TOTAL DIA BS : ${totalBs}",
+                text = "PAGOS TARJETA : ${totalTarjeta}$",
                 style = MaterialTheme.typography.h6,
                 fontSize = fontSize,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.fillMaxWidth()
             )
 
-            /*LazyVerticalGrid(
-                columns = GridCells.Fixed(1),
-                contentPadding = PaddingValues(
-                    start = 8.dp,
-                    top = 8.dp,
-                    end = 8.dp,
-                    bottom = 8.dp
-                ),
-                horizontalArrangement = Arrangement.spacedBy(1.dp),
-                verticalArrangement = Arrangement.spacedBy(1.dp),
-                content = {
-                    items(items = lista) {
-                        ItemPago(it)
-                    }
-                }
+            Text(
+                text = "PAGOS PAGO MOVIL : ${totalPagoMovil}$",
+                style = MaterialTheme.typography.h6,
+                fontSize = fontSize,
+                textAlign = TextAlign.Left,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-            )*/
+
         }
 
     }
 }
 
-@Composable
-fun ItemPago(ticket: Ticket) {
-
-
-    /*Row() {
-        when (pagos.tipopago) {
-            1 -> Text("DIVISA")
-            2 -> Text("PV Venezuela")
-            3 -> Text("PV BancaAmiga")
-            4 -> Text("EFECTIVO BS")
-            5 -> Text("PAGO MOVIL")
-        }
-        Text("${pagos.monto}",
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Right)
-    }*/
-
-
-}
 
 
 @Composable

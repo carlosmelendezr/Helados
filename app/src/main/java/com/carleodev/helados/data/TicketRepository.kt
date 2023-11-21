@@ -12,7 +12,8 @@ interface TicketRepository {
     fun getTotalCant( fecha:Int, anulado:Boolean=false):Flow<Int>
     fun getTotalDolar( fecha:Int, anulado:Boolean=false):Flow<Double>
     fun getTotalBs( fecha:Int, anulado:Boolean=false):Flow<Double>
-    fun getTotalPagos( fecha:Int, anulado:Boolean=false):Flow<Ticket>
+    fun getTotalPagosBs( fecha:Int, pago:String, anulado:Boolean=false):Flow<Double>
+    fun getTotalPagosDolar( fecha:Int, pago:String, anulado:Boolean=false):Flow<Double>
 
     fun getSumaAnulado( fecha:Int, anulado:Boolean=true): Flow<Int>
 

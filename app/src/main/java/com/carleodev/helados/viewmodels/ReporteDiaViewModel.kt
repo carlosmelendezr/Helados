@@ -22,7 +22,7 @@ class ReporteDiaViewModel(savedStateHandle: SavedStateHandle,
         started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
         initialValue = 0)
 
-    val totalDolar:StateFlow<Double> = ticketRepository.getTotalDolar(hoy).stateIn(
+   /* val totalDolar:StateFlow<Double> = ticketRepository.getTotalDolar(hoy).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
         initialValue = 0.0)
@@ -30,14 +30,29 @@ class ReporteDiaViewModel(savedStateHandle: SavedStateHandle,
     val totalBs:StateFlow<Double> = ticketRepository.getTotalBs(hoy).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-        initialValue = 0.0)
+        initialValue = 0.0)*/
 
-    val totalPagosBs:StateFlow<Ticket> = ticketRepository.getTotalPagos(hoy).stateIn(
+    val totalBsEfectivo:StateFlow<Double> = ticketRepository.getTotalPagosBs(hoy,"Efectivo Bs").stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-        initialValue = Ticket(id=0,cant=0,fecha=0,
-            iditem = 0,hora=0, valordolar = 0.0, valorbs = 0.0,
-            sabor="", toping = "",lluvia="",pago="",anulado=false))
+        initialValue = 0.0)
+
+    val totalTarjeta:StateFlow<Double> = ticketRepository.getTotalPagosBs(hoy,"Tarjeta").stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+        initialValue = 0.0)
+
+    val totalPagoMovil:StateFlow<Double> = ticketRepository.getTotalPagosBs(hoy,"Pago Movil").stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+        initialValue = 0.0)
+
+
+    val totalDolarEfectivo:StateFlow<Double> = ticketRepository.getTotalPagosDolar(hoy,"Efectivo Dolar").stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+        initialValue = 0.0)
+
 
 
     /* val listaPagos: StateFlow<PagosUiState> =
@@ -53,7 +68,7 @@ class ReporteDiaViewModel(savedStateHandle: SavedStateHandle,
 
     }
 
-
 }
 
-data class PagosUiState(val itemList: List<Ticket> = listOf())
+data class ListaPagoUiState(val itemList: List<Ticket> = listOf())
+

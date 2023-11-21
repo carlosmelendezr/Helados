@@ -52,15 +52,20 @@ interface TicketDao {
             "anulado=:anulado")
     fun getSumaAnulado( fecha:Int, anulado:Boolean=true): Flow<Int>
 
-    @Query("SELECT SUM(valorbs) as valorbs FROM ticket " +
-            "WHERE fecha =:fecha AND pago!='Efectivo Dolar'" +
-            " AND anulado=:anulado GROUP BY pago")
-    fun getTotalPagos( fecha:Int, anulado:Boolean=false): Flow<Ticket>
+    @Query("SELECT " +
+            "SUM(valorbs) as valorbs " +
+            "FROM ticket " +
+            "WHERE fecha =:fecha AND pago=:pago " +
+            " AND anulado=:anulado ")
+    fun getTotalPagosBs( fecha:Int, pago:String, anulado:Boolean=false): Flow<Double>
 
-    /*@Query("SELECT SUM(*) as total FROM ticket " +
-            "WHERE fecha =:fecha  " +
-            "GROUP BY pago")
-    fun getResumenPago( fecha:Int): Flow<Ticket>*/
+    @Query("SELECT " +
+            "SUM(valordolar) as valordolar " +
+            "FROM ticket " +
+            "WHERE fecha =:fecha AND pago=:pago " +
+            " AND anulado=:anulado ")
+    fun getTotalPagosDolar( fecha:Int, pago:String, anulado:Boolean=false): Flow<Double>
+
 
     // Specify the conflict strategy as IGNORE, when the user tries to add an
     // existing Item into the database Room ignores the conflict.
