@@ -15,6 +15,8 @@ data class Ticket(
     val iditem: Int,
     val hora: Int,
     val cant:Int,
+    val valordolar:Double,
+    val valorbs:Double,
     val sabor:String,
     val toping:String,
     val lluvia:String,

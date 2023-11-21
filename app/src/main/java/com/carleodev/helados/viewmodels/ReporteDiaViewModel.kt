@@ -17,12 +17,28 @@ class ReporteDiaViewModel(savedStateHandle: SavedStateHandle,
                           ) : ViewModel() {
     val hoy = convertDateToInt(Date())
 
-   /* val listaPagos: StateFlow<PagosUiState> =
-        pagosRepository.getResumenPagos(hoy).map { PagosUiState(it) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = PagosUiState())*/
+    val totalCant:StateFlow<Int> = ticketRepository.getTotalCant(hoy).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+        initialValue = 0)
+
+    val totalDolar:StateFlow<Double> = ticketRepository.getTotalDolar(hoy).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+        initialValue = 0.0)
+
+    val totalBs:StateFlow<Double> = ticketRepository.getTotalBs(hoy).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+        initialValue = 0.0)
+
+
+    /* val listaPagos: StateFlow<PagosUiState> =
+         pagosRepository.getResumenPagos(hoy).map { PagosUiState(it) }
+             .stateIn(
+                 scope = viewModelScope,
+                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+                 initialValue = PagosUiState())*/
 
 
     companion object {

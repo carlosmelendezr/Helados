@@ -15,6 +15,8 @@ import com.carleodev.helados.ui.home.GenerarTicketDestination
 import com.carleodev.helados.ui.home.GenerarTicketScreen
 import com.carleodev.helados.ui.home.ListarItemDestination
 import com.carleodev.helados.ui.home.ListarItemScreen
+import com.carleodev.helados.ui.home.ReporteDiaDestination
+import com.carleodev.helados.ui.home.ReporteDiaScreen
 import com.carleodev.helados.ui.home.SplashDestino
 
 
@@ -51,7 +53,8 @@ fun HeladosNavHost(
             ListarItemScreen(
                 onNavigateUp = { navController.navigateUp() },
                 navigateToGenerar = {navController.navigate("${GenerarTicketDestination.route}/${it}")},
-                navigateToEditItem = {navController.navigate("${CrearItemDestination.route}/${it}")}
+                navigateToEditItem = {navController.navigate("${CrearItemDestination.route}/${it}")},
+                navigateToReportes = {navController.navigate(ReporteDiaDestination.route)}
 
             )
         }
@@ -64,6 +67,15 @@ fun HeladosNavHost(
                 onNavigateUp = { navController.navigateUp() },
             )
         }
+
+        composable(route = ReporteDiaDestination.route) {
+            ReporteDiaScreen(
+                onNavigateUp = { navController.navigateUp() }
+
+            )
+        }
+
+
 
 
     }

@@ -17,6 +17,8 @@ interface TicketDao {
     @Query("SELECT ticket.id," +
             "ticket.iditem," +
             "ticket.cant," +
+            "ticket.valordolar," +
+            "ticket.valorbs," +
             "ticket.fecha," +
             "ticket.hora," +
             "ticket.iditem," +
@@ -31,15 +33,24 @@ interface TicketDao {
     fun getItem(id: Int): Flow<Ticket>
 
     @Query("SELECT SUM(cant) as total FROM ticket " +
-            "WHERE iditem = :iditem AND " +
-            "fecha =:fecha AND " +
-            "anulado=:anulado")
-    fun getSumaBote(iditem: Int, fecha:Int, anulado:Boolean=false): Flow<Int>
-
-    @Query("SELECT SUM(cant) as total FROM ticket " +
             "WHERE fecha =:fecha AND " +
             "anulado=:anulado")
-    fun getSumaBoteAnulado( fecha:Int, anulado:Boolean=true): Flow<Int>
+    fun getTotalCant( fecha:Int, anulado:Boolean=false): Flow<Int>
+
+    @Query("SELECT SUM(valordolar) as totaldolar FROM ticket " +
+            "WHERE fecha =:fecha AND " +
+            "anulado=:anulado")
+    fun getTotalDolar( fecha:Int, anulado:Boolean=false): Flow<Double>
+
+    @Query("SELECT SUM(valorbs) as totalbs FROM ticket " +
+            "WHERE fecha =:fecha AND " +
+            "anulado=:anulado")
+    fun getTotalBs( fecha:Int, anulado:Boolean=false): Flow<Double>
+
+    @Query("SELECT SUM(cant) as totcant FROM ticket " +
+            "WHERE fecha =:fecha AND " +
+            "anulado=:anulado")
+    fun getSumaAnulado( fecha:Int, anulado:Boolean=true): Flow<Int>
 
     /*@Query("SELECT SUM(*) as total FROM ticket " +
             "WHERE fecha =:fecha  " +

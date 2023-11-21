@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.carleodev.helados.viewmodels.CrearItemViewModel
 import com.carleodev.helados.viewmodels.GenerarTicketViewModel
 import com.carleodev.helados.viewmodels.ListarItemViewModel
+import com.carleodev.helados.viewmodels.ReporteDiaViewModel
 import com.carleodev.helados.viewmodels.SplashViewModel
 
 /**
@@ -37,6 +38,13 @@ object AppViewModelProvider {
                 this.createSavedStateHandle(),
                 itemsRepository = heladosApplication().container.itemsRepository
 
+            )
+        }
+
+        initializer {
+            ReporteDiaViewModel(
+                this.createSavedStateHandle(),
+                ticketRepository = heladosApplication().container.ticketRepository
             )
         }
 

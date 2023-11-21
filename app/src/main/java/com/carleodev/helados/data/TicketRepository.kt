@@ -9,9 +9,11 @@ interface TicketRepository {
 
     fun getItem(id: Int): Flow<Ticket>
 
-    fun getSumaBote(iditem: Int, fecha:Int, anulado:Boolean=false):Flow<Int>
+    fun getTotalCant( fecha:Int, anulado:Boolean=false):Flow<Int>
+    fun getTotalDolar( fecha:Int, anulado:Boolean=false):Flow<Double>
+    fun getTotalBs( fecha:Int, anulado:Boolean=false):Flow<Double>
 
-    fun getSumaBoteAnulado( fecha:Int, anulado:Boolean=true): Flow<Int>
+    fun getSumaAnulado( fecha:Int, anulado:Boolean=true): Flow<Int>
 
     suspend fun insertItem(tickets: Ticket):Long
 

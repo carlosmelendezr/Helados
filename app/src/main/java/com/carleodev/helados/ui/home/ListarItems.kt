@@ -93,6 +93,7 @@ fun ListarItemScreen(
     onNavigateUp: () -> Unit,
     navigateToEditItem: (Int) -> Unit,
     navigateToGenerar: (Int) -> Unit,
+    navigateToReportes:() -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ListarItemViewModel = viewModel(factory = AppViewModelProvider.Factory))
 {
@@ -107,7 +108,14 @@ fun ListarItemScreen(
                 navigateUp = onNavigateUp
             )
 
-        }, floatingActionButton = {
+        },    bottomBar = {
+            Row(modifier = Modifier.height(60.dp)) {
+                Button(
+                    onClick = { navigateToReportes() }, modifier = Modifier.fillMaxHeight()
+                ) { Text("Reportes") }
+
+            }
+        },floatingActionButton = {
             FloatingActionButton(
                 onClick = { navigateToEditItem(0) },
                 modifier = Modifier.navigationBarsPadding()

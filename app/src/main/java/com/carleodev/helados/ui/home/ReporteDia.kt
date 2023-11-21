@@ -33,14 +33,16 @@ object ReporteDiaDestination : NavigationDestination {
     override val titleRes = 4
 }
 
-/*
+
 @Composable
 fun ReporteDiaScreen(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-    navigateToDetalles:()->Unit,
     viewModel: ReporteDiaViewModel = viewModel(factory = AppViewModelProvider.Factory))
 {
+    val totalCantidad by viewModel.totalCant.collectAsState(initial = 0)
+    val totalDolar by viewModel.totalDolar.collectAsState(initial = 0.0)
+    val totalBs by viewModel.totalBs.collectAsState(initial = 0.0)
 
     Scaffold(
         topBar = {
@@ -49,69 +51,58 @@ fun ReporteDiaScreen(
                 canNavigateBack = true,
                 navigateUp = onNavigateUp
             )
-        }, floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navigateToDetalles() },
-                modifier = Modifier.navigationBarsPadding()
-            )
-            {
-                Icon(
-                    imageVector = Icons.Default.Airlines,
-                    contentDescription = "Detalles",
-                    tint = MaterialTheme.colors.onPrimary
-                )
-            }
-        },
+        }
+
     ) { innerPadding ->
-        MostarPagos(listaUiState.itemList,
-            boteAzul =boteAzul+boteAzulExp,
-            boteAmarillo = boteAmarillo+boteAmarilloExp,
-            botesAnulados = botesAnulados,
+        MostarReporte(totalCantidad=totalCantidad,
+            totalDolar=totalDolar, totalBs=totalBs,
             modifier = modifier.padding(innerPadding))
 
     }
-}*/
+}
 
 @Composable
-fun MostarPagos(lista:List<Ticket>,
-                boteAzul:Int, boteAmarillo:Int,
-                botesAnulados:Int,
-                modifier: Modifier = Modifier)
+fun MostarReporte(totalCantidad:Int,
+                  totalDolar:Double,
+                  totalBs:Double,
+                  modifier: Modifier = Modifier)
 {
     Card() {
+        val fontSize = 20.sp
         Column()
         {
             Text(
                 text = "RESUMEN DE VENTA",
                 style = MaterialTheme.typography.h6,
-                fontSize = 28.sp,
+                fontSize = fontSize,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
             Text(
-                text = "TOTAL BOTES AZULES : ${boteAzul}",
+                text = "TOTAL CANTIDAD : ${totalCantidad}",
                 style = MaterialTheme.typography.h6,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Left,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Text(
-                text = "TOTAL BOTES AMARILLOS : ${boteAmarillo}",
-                style = MaterialTheme.typography.h6,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Left,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Text(
-                text = "TOTAL BOTES ANULADOS : ${botesAnulados}",
-                style = MaterialTheme.typography.h6,
-                color = Color.Red,
-                fontSize = 12.sp,
+                fontSize = fontSize,
                 textAlign = TextAlign.Left,
                 modifier = Modifier.fillMaxWidth()
             )
 
-            LazyVerticalGrid(
+            Text(
+                text = "TOTAL DIA DOLAR : ${totalDolar}",
+                style = MaterialTheme.typography.h6,
+                fontSize = fontSize,
+                textAlign = TextAlign.Left,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Text(
+                text = "TOTAL DIA BS : ${totalBs}",
+                style = MaterialTheme.typography.h6,
+                fontSize = fontSize,
+                textAlign = TextAlign.Left,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            /*LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 contentPadding = PaddingValues(
                     start = 8.dp,
@@ -127,7 +118,7 @@ fun MostarPagos(lista:List<Ticket>,
                     }
                 }
 
-            )
+            )*/
         }
 
     }

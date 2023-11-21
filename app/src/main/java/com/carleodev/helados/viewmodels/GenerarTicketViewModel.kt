@@ -70,7 +70,9 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
             cant=1, sabor = ticketUIState.sabor,
             toping = ticketUIState.toping.toString(),
             lluvia = ticketUIState.lluvia.toString(),
-            pago = ticketUIState.pago
+            pago = ticketUIState.pago,
+            valordolar=itemUIState.price.toDouble(),
+            valorbs = itemUIState.preciobs.toDouble()
 
         )
 
