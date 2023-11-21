@@ -32,6 +32,13 @@ class ReporteDiaViewModel(savedStateHandle: SavedStateHandle,
         started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
         initialValue = 0.0)
 
+    val totalPagosBs:StateFlow<Ticket> = ticketRepository.getTotalPagos(hoy).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+        initialValue = Ticket(id=0,cant=0,fecha=0,
+            iditem = 0,hora=0, valordolar = 0.0, valorbs = 0.0,
+            sabor="", toping = "",lluvia="",pago="",anulado=false))
+
 
     /* val listaPagos: StateFlow<PagosUiState> =
          pagosRepository.getResumenPagos(hoy).map { PagosUiState(it) }

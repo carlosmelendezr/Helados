@@ -13,6 +13,9 @@ class OfflineTicketRepository(private val ticketsDao: TicketDao): TicketReposito
     = ticketsDao.getTotalBs(fecha,anulado)
     override fun getTotalDolar(fecha: Int, anulado: Boolean): Flow<Double>
             = ticketsDao.getTotalDolar(fecha,anulado)
+
+    override fun getTotalPagos(fecha: Int, anulado: Boolean): Flow<Ticket>
+    = ticketsDao.getTotalPagos(fecha,anulado)
     override fun getSumaAnulado( fecha:Int, anulado:Boolean): Flow<Int> =
         ticketsDao.getSumaAnulado(fecha)
     override suspend fun insertItem(tickets: Ticket):Long = ticketsDao.insert(tickets)
