@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.carleodev.helados.AppViewModelProvider
+import com.carleodev.helados.HeladosTopAppBar
+import com.carleodev.helados.data.Ticket
 import com.carleodev.helados.navigation.NavigationDestination
 import com.carleodev.helados.viewmodels.ReporteDiaViewModel
 
@@ -31,7 +33,7 @@ object ReporteDiaDestination : NavigationDestination {
     override val titleRes = 4
 }
 
-
+/*
 @Composable
 fun ReporteDiaScreen(
     onNavigateUp: () -> Unit,
@@ -42,7 +44,7 @@ fun ReporteDiaScreen(
 
     Scaffold(
         topBar = {
-            BotesTopAppBar(
+            HeladosTopAppBar(
                 title = "Reporte del dia " ,
                 canNavigateBack = true,
                 navigateUp = onNavigateUp
@@ -68,10 +70,10 @@ fun ReporteDiaScreen(
             modifier = modifier.padding(innerPadding))
 
     }
-}
+}*/
 
 @Composable
-fun MostarPagos(lista:List<Pagos>,
+fun MostarPagos(lista:List<Ticket>,
                 boteAzul:Int, boteAmarillo:Int,
                 botesAnulados:Int,
                 modifier: Modifier = Modifier)
@@ -132,10 +134,10 @@ fun MostarPagos(lista:List<Pagos>,
 }
 
 @Composable
-fun ItemPago(pagos:Pagos) {
+fun ItemPago(ticket: Ticket) {
 
 
-    Row() {
+    /*Row() {
         when (pagos.tipopago) {
             1 -> Text("DIVISA")
             2 -> Text("PV Venezuela")
@@ -146,7 +148,7 @@ fun ItemPago(pagos:Pagos) {
         Text("${pagos.monto}",
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Right)
-    }
+    }*/
 
 
 }
@@ -155,8 +157,8 @@ fun ItemPago(pagos:Pagos) {
 @Composable
 @Preview
 fun  MostarPagosPreview(){
-    MostarPagos(listOf(Pagos(idticket = 1, tipopago = 1,monto = 600.00,fecha=20230730),
+    /*MostarPagos(listOf(Pagos(idticket = 1, tipopago = 1,monto = 600.00,fecha=20230730),
         Pagos(idticket = 1, tipopago = 2,monto = 5500.00, fecha=20230730)), boteAzul = 8,
-        boteAmarillo = 3, botesAnulados = 2)
+        boteAmarillo = 3, botesAnulados = 2)*/
 
 }
