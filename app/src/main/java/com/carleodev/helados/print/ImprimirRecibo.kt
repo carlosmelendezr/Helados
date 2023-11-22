@@ -72,7 +72,7 @@ private fun getSomePrintables(context:Context,
 
     add(
         TextPrintable.Builder()
-            .setText("CAFE RIBIERA BRAVA 2020")
+            .setText("CAFE RIBERA BRAVA 2020")
             .setLineSpacing(DefaultPrinter.LINE_SPACING_30)
             .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
             .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
