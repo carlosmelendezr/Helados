@@ -46,11 +46,11 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
         }
     }
 
-
+   /* fun suma() {
+        ticketUIState = ticketUIState(cant = (ticketUIState.cant.toInt()+1).toString()))
+    }*/
     fun updateUiState(pticketUIState:TicketUIState) {
         ticketUIState = pticketUIState
-        Log.d("TOPING",ticketUIState.toping.toString() )
-        Log.d("TOPING",ticketUIState.lluvia.toString() )
     }
 
     fun guardarTicket() {
@@ -67,7 +67,7 @@ class GenerarTicketViewModel(savedStateHandle: SavedStateHandle,
         val ticket = Ticket(
             fecha = hoy,
             iditem = itemId, hora = 0,
-            cant=1, sabor = ticketUIState.sabor,
+            cant=ticketUIState.cant.toInt(), sabor = ticketUIState.sabor,
             toping = ticketUIState.toping.toString(),
             lluvia = ticketUIState.lluvia.toString(),
             pago = ticketUIState.pago,
@@ -95,7 +95,19 @@ data class TicketUIState(
     val lluvia:Set<String> ,
     val pago:String="",
     val formapago:Boolean=false,
+    var cant:String="1"
 ) {
+
+    fun suma() {
+        cant = (cant.toInt()+1).toString()
+    }
+    fun resta() {
+        if (cant.toInt()>0) {
+            cant = (cant.toInt() - 1).toString()
+        }
+    }
+
+
     fun agregarToping(texto:String) {
         toping.add(texto)
     }

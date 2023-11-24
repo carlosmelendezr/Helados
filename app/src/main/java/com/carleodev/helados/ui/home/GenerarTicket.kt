@@ -107,6 +107,7 @@ fun GenerarItem(itemUIState: ItemUIState,
                 onValueChange:(TicketUIState)->Unit,
                 modifier: Modifier = Modifier
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
 
    val myBitmap = itemUIState.imagen
 
@@ -144,6 +145,37 @@ fun GenerarItem(itemUIState: ItemUIState,
                             fontSize = 20.sp
                         )
 
+                    }
+                    Row() {
+
+                        OutlinedTextField(
+                            value = ticketUIState.cant,
+                            label = { Text("CANTIDAD") },
+                            modifier = Modifier
+                                .width(100.dp),
+                            onValueChange = { onValueChange(ticketUIState.copy(cant = it)) },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    keyboardController?.hide()
+                                }),
+                        )
+
+                        Button(
+                            onClick = { ticketUIState.suma() },
+                            modifier = Modifier.width(60.dp).height(60.dp),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "+",
+                                tint = MaterialTheme.colors.onPrimary
+                            )
+
+                        }
                     }
                     if (ticketUIState.formapago) {
                         Column {

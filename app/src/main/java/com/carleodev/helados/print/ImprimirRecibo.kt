@@ -72,7 +72,7 @@ private fun getSomePrintables(context:Context,
 
     add(
         TextPrintable.Builder()
-            .setText("CAFE RIBERA BRAVA 2020")
+            .setText("CAFE RIBERA BRAVA 2019")
             .setLineSpacing(DefaultPrinter.LINE_SPACING_30)
             .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
             .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
@@ -125,6 +125,15 @@ private fun getSomePrintables(context:Context,
 
     add(TextPrintable.Builder()
         .setText("${item.preciobs.toInt()} Bs.")
+        .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
+        .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
+        .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
+        .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
+        .setNewLinesAfter(2)
+        .build())
+
+    add(TextPrintable.Builder()
+        .setText("* ${item.cantidad.toInt()} *")
         .setFontSize(DefaultPrinter.FONT_SIZE_LARGE)
         .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
         .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
